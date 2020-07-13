@@ -58,7 +58,7 @@ private let parsed = [
 final class RelationshipsTests: XCTestCase {
   func testRelationships() throws {
     let decoder = XMLDecoder()
-    decoder.keyDecodingStrategy = .convertFromCapitalized
+    decoder.keyDecodingStrategy = .useDefaultKeys
     let relationships = try decoder.decode(Relationships.self,
                                            from: exampleXML)
     XCTAssertEqual(relationships.items, parsed)

@@ -120,7 +120,7 @@ public class XLSXFile {
   }
 
   public func parseRelationships() throws -> Relationships {
-    decoder.keyDecodingStrategy = .convertFromCapitalized
+    decoder.keyDecodingStrategy = .useDefaultKeys
 
     return try parseEntry("_rels/.rels", Relationships.self)
   }
@@ -178,6 +178,11 @@ public class XLSXFile {
     }
   }
 
+  /// Parse and return a workbook in this file.
+  public func parseWorkbook(path: String) throws -> Workbook {
+    try parseEntry(path, Workbook.self)
+  }
+
   /** Return pairs of parsed document paths with corresponding relationships.
 
    **Deprecation warning**: this function doesn't handle root paths correctly,
@@ -187,7 +192,7 @@ public class XLSXFile {
   @available(*, deprecated, renamed: "parseDocumentRelationships(path:)")
   public func parseDocumentRelationships() throws
     -> [([Substring], Relationships)] {
-    decoder.keyDecodingStrategy = .convertFromCapitalized
+    decoder.keyDecodingStrategy = .useDefaultKeys
 
     return try parseDocumentPaths()
       .compactMap { path -> ([Substring], Relationships)? in
@@ -212,7 +217,7 @@ public class XLSXFile {
   /// as an argument to this function.
   public func parseDocumentRelationships(path: String) throws
     -> (Path, Relationships) {
-    decoder.keyDecodingStrategy = .convertFromCapitalized
+    decoder.keyDecodingStrategy = .useDefaultKeys
 
     let originalPath = Path(path)
     var components = originalPath.components
@@ -226,6 +231,7 @@ public class XLSXFile {
       components.joined(separator: "/"),
       Relationships.self
     )
+
     return (originalPath, relationships)
   }
 

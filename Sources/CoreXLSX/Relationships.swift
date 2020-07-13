@@ -16,10 +16,10 @@
 //
 
 public struct Relationships: Codable, Equatable {
-  public let items: [Relationship]
+  public internal(set) var items: [Relationship]
 
   enum CodingKeys: String, CodingKey {
-    case items = "relationship"
+    case items = "Relationship"
   }
 }
 
@@ -105,6 +105,12 @@ public struct Relationship: Codable, Equatable {
       http://schemas.openxmlformats.org/officeDocument/2006/relationships/\
       customXml
       """
+  }
+
+  enum CodingKeys: String, CodingKey {
+    case id = "Id"
+    case type = "Type"
+    case target = "Target"
   }
 
   public let id: String

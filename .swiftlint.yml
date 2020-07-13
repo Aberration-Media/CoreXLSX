@@ -7,8 +7,11 @@ disabled_rules:
 - cyclomatic_complexity
 
 line_length:
-- 100
-- 120
+# increased line lengths as the defaults can discourage the use of human readable naming conventions
+- 200
+- 300
+#- 100
+#- 120
 
 function_body_length:
 - 50
@@ -18,4 +21,3 @@ excluded: # paths to ignore during linting. Takes precedence over `included`.
   - .build
   - Example/Pods
   - Tests/CoreXLSXTests/XCTestManifests.swift
-  

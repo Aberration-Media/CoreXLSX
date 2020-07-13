@@ -75,27 +75,31 @@ final class CoreXLSXTests: XCTestCase {
       return
     }
 
-    let dates = try file.parseWorksheetPaths()
-      .flatMap { try file.parseWorksheet(at: $0).data?.rows ?? [] }
-      .flatMap { $0.cells }
-      .compactMap { $0.dateValue }
+    do {
+      let dates = try file.parseWorksheetPaths()
+        .flatMap { try file.parseWorksheet(at: $0).data?.rows ?? [] }
+        .flatMap { $0.cells }
+        .compactMap { $0.dateValue }
 
-    XCTAssertEqual(dates, [
-      DateComponents(
-        calendar: referenceCalendar,
-        timeZone: referenceTimeZone,
-        year: 2019,
-        month: 09,
-        day: 10
-      ).date,
-      DateComponents(
-        calendar: referenceCalendar,
-        timeZone: referenceTimeZone,
-        year: 2019,
-        month: 10,
-        day: 11
-      ).date,
-    ])
+      XCTAssertEqual(dates, [
+        DateComponents(
+          calendar: referenceCalendar,
+          timeZone: referenceTimeZone,
+          year: 2019,
+          month: 09,
+          day: 10
+        ).date,
+        DateComponents(
+          calendar: referenceCalendar,
+          timeZone: referenceTimeZone,
+          year: 2019,
+          month: 10,
+          day: 11
+        ).date,
+      ])
+    } catch {
+      XCTAssert(false, "failed to parse the file: \(error)")
+    }
   }
 
   func testPublicAPI() throws {
@@ -105,44 +109,50 @@ final class CoreXLSXTests: XCTestCase {
       return
     }
 
-    XCTAssertEqual(try file.parseDocumentPaths(), ["xl/workbook.xml"])
-    XCTAssertEqual(try file.parseWorksheetPaths(), [sheetPath])
+    do {
+      let documentPaths = try file.parseDocumentPaths()
+      XCTAssertEqual(documentPaths, ["xl/workbook.xml"])
+      let worksheetPaths = try file.parseWorksheetPaths()
+      XCTAssertEqual(worksheetPaths, [sheetPath])
 
-    let ws = try file.parseWorksheet(at: sheetPath)
-    guard let sd = ws.data else {
-      XCTAssert(false, "no sheet data available")
-      return
+      let ws = try file.parseWorksheet(at: sheetPath)
+      guard let sd = ws.data else {
+        XCTAssert(false, "no sheet data available")
+        return
+      }
+      let allCells = sd.rows
+        .map { $0.cells }
+        .reduce([]) { $0 + $1 }
+      XCTAssertEqual(allCells.count, 90)
+
+      let rowReferences = sd.rows.map { $0.reference }
+      let cellsFromRows = ws.cells(atRows: rowReferences)
+      XCTAssertEqual(allCells, cellsFromRows)
+
+      let cellsInFirstRow = ws.cells(atRows: [1])
+      XCTAssertEqual(cellsInFirstRow.count, 6)
+
+      let firstColumn = ("A" as UnicodeScalar).value
+      let lastColumn = ("F" as UnicodeScalar).value
+      let columnReferences = (firstColumn ... lastColumn)
+        .compactMap { UnicodeScalar($0) }
+        .compactMap { ColumnReference(String($0)) }
+
+      XCTAssertEqual(allCells, ws.cells(atColumns: columnReferences))
+
+      let closedRange1 = ColumnReference("A")! ... ColumnReference("F")!
+      XCTAssertEqual(allCells, ws.cells(atColumns: closedRange1))
+
+      let closedRange2 = ColumnReference("A")! ... ColumnReference("C")!
+      let rowsRange: ClosedRange<UInt> = 3 ... 10
+      let cellsInRange = ws.cells(atColumns: closedRange2, rows: rowsRange)
+      XCTAssertEqual(cellsInRange.count, closedRange2.count * rowsRange.count)
+
+      let strings = try file.parseSharedStrings()
+      XCTAssertEqual(strings.items.count, 18)
+    } catch {
+      XCTAssert(false, "failed to parse the file: \(error)")
     }
-    let allCells = sd.rows
-      .map { $0.cells }
-      .reduce([]) { $0 + $1 }
-    XCTAssertEqual(allCells.count, 90)
-
-    let rowReferences = sd.rows.map { $0.reference }
-    let cellsFromRows = ws.cells(atRows: rowReferences)
-    XCTAssertEqual(allCells, cellsFromRows)
-
-    let cellsInFirstRow = ws.cells(atRows: [1])
-    XCTAssertEqual(cellsInFirstRow.count, 6)
-
-    let firstColumn = ("A" as UnicodeScalar).value
-    let lastColumn = ("F" as UnicodeScalar).value
-    let columnReferences = (firstColumn ... lastColumn)
-      .compactMap { UnicodeScalar($0) }
-      .compactMap { ColumnReference(String($0)) }
-
-    XCTAssertEqual(allCells, ws.cells(atColumns: columnReferences))
-
-    let closedRange1 = ColumnReference("A")! ... ColumnReference("F")!
-    XCTAssertEqual(allCells, ws.cells(atColumns: closedRange1))
-
-    let closedRange2 = ColumnReference("A")! ... ColumnReference("C")!
-    let rowsRange: ClosedRange<UInt> = 3 ... 10
-    let cellsInRange = ws.cells(atColumns: closedRange2, rows: rowsRange)
-    XCTAssertEqual(cellsInRange.count, closedRange2.count * rowsRange.count)
-
-    let strings = try file.parseSharedStrings()
-    XCTAssertEqual(strings.items.count, 18)
   }
 
   func testLegacyPublicAPI() throws {
