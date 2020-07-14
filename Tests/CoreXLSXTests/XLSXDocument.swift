@@ -72,7 +72,7 @@ public class XLSXDocumentTest: XCTestCase {
 
   func testSaveEditedDocument() {
 
-    let fileName: String = "Simple-mine.xlsx" //Dates.xlsx"
+    let fileName: String = "Dates.xlsx"
     guard let file =
       XLSXFile(filepath: "\(currentWorkingPath)/\(fileName)") else {
       XCTAssert(false, "failed to open the file")
@@ -86,16 +86,17 @@ public class XLSXDocumentTest: XCTestCase {
       //add new row
       let styles = worksheet.lastRow?.styles()
       worksheet.addRow(with: ["abc", "def", "hij", "klm"], sharedStrings: &sharedStrings, styles: styles)
+      worksheet.insertRow(at: 3, with: ["in1", "in2"], sharedStrings: &sharedStrings, styles: styles)
     }
 
-    //debug cells
-    for worksheet in document.worksheets {
-      for row in worksheet.data?.rows ?? [] {
-        for c in row.cells {
-          print(c)
-        }
-      }
-    } //end for (worksheets)
+//    //debug cells
+//    for worksheet in document.worksheets {
+//      for row in worksheet.data?.rows ?? [] {
+//        for c in row.cells {
+//          print("CELL: \(c)")
+//        }
+//      }
+//    } //end for (worksheets)
 
     do {
       let filePath: URL = outputFolderURL.appendingPathComponent("Test.xlsx")

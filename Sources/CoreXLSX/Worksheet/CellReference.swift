@@ -16,8 +16,8 @@
 //
 
 public struct CellReference {
-  public let column: ColumnReference
-  public let row: UInt
+  public internal(set) var column: ColumnReference
+  public internal(set) var row: UInt
 
   public init(_ column: ColumnReference, _ row: UInt) {
     self.column = column

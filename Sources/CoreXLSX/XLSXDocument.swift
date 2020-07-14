@@ -131,7 +131,7 @@ public class XLSXDocument {
     if let safeFile = file {
       // get worksheet paths
       if let paths = try? safeFile.parseWorksheetPaths() {
-        print("got worksheet paths: \(paths)")
+
         // retrieve work sheets
         for path in paths {
           do {
@@ -174,7 +174,7 @@ public class XLSXDocument {
     if let safeFile = file {
       // get document paths
       if let paths = try? safeFile.parseDocumentPaths() {
-        print("got document paths: \(paths)")
+
         // retrieve relationship
         for path in paths {
           do {

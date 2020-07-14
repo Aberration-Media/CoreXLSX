@@ -33,6 +33,10 @@ public enum CoreXLSXError: Error {
  user's filesystem.
  */
 public class XLSXFile {
+
+  /// URL of XLSX file
+  public var fileURL: URL { return archive.url }
+
   private let archive: Archive
   private let decoder: XMLDecoder = {
     let result = XMLDecoder()

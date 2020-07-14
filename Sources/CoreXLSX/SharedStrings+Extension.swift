@@ -14,10 +14,6 @@ extension SharedStrings: ExcludeAttributeType {
   }
 }
 
-//public struct MutableItem: Item {
-//  override var items: [Items] = []
-//}
-
 public extension SharedStrings {
   /// create empty strings object
   init() {

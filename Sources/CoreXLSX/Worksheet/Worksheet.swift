@@ -205,7 +205,7 @@ public struct Column: Codable, Equatable {
 }
 
 public struct Row: Codable {
-  public let reference: UInt
+  public internal(set) var reference: UInt
 
   @available(*, deprecated, renamed: "height")
   public var ht: String? {

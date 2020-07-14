@@ -29,7 +29,7 @@ public enum CellType: String, Codable {
 // swiftlint:disable:next line_length
 /// [docs](https://wiki.ucl.ac.uk/display/~ucftpw2/2013/10/22/Using+git+for+version+control+of+Excel+spreadsheets+-+part+2+of+3)
 public struct Cell: Codable, Equatable {
-  public let reference: CellReference
+  public internal(set) var reference: CellReference
   public internal(set) var type: CellType?
 
   // FIXME: Attribute "s" in a cell is an index into the styles table,

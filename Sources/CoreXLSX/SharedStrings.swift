@@ -66,6 +66,7 @@ public struct RichText: Codable, Equatable {
   public struct Color: Codable, Equatable {
     let theme: String?
     let rgb: String?
+    let indexed: String?
   }
 
   public struct Font: Codable, Equatable {
@@ -76,7 +77,25 @@ public struct RichText: Codable, Equatable {
     }
   }
 
+  public struct Bold: Codable, Equatable {
+    public let value: String?
+
+    enum CodingKeys: String, CodingKey {
+      case value = "val"
+    }
+  }
+
+  public struct Italic: Codable, Equatable {
+    public let value: String?
+
+    enum CodingKeys: String, CodingKey {
+      case value = "val"
+    }
+  }
+
   public struct Properties: Codable, Equatable {
+    public let bold: Bold?
+    public let italic: Italic?
     public let size: Size?
     public let color: Color?
     public let font: Font?
@@ -84,6 +103,8 @@ public struct RichText: Codable, Equatable {
     public let scheme: Scheme?
 
     enum CodingKeys: String, CodingKey {
+      case bold = "b"
+      case italic = "i"
       case size = "sz"
       case color
       case font = "rFont"
