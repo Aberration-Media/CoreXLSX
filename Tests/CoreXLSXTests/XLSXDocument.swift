@@ -87,6 +87,8 @@ public class XLSXDocumentTest: XCTestCase {
       let styles = worksheet.lastRow?.styles()
       worksheet.addRow(with: ["abc", "def", "hij", "klm"], sharedStrings: &sharedStrings, styles: styles)
       worksheet.insertRow(at: 3, with: ["in1", "in2"], sharedStrings: &sharedStrings, styles: styles)
+      worksheet.deleteRows(in: 0..<3)
+      worksheet.updateRowValues(at: 4, with: ["replace RICH"], sharedStrings: &sharedStrings)
     }
 
 //    //debug cells

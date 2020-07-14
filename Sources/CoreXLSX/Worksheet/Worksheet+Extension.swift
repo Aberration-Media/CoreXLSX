@@ -97,7 +97,7 @@ public extension Worksheet {
 
   mutating func updateRowValues(
     at rowIndex: UInt,
-    from column: Int = 1,
+    column: Int = 1,
     with values: [String],
     sharedStrings: inout SharedStrings
   ) {
@@ -178,6 +178,26 @@ public extension Worksheet {
     self.data?.rowsByReference[rowIndex] = row
 
   } //end insertRow()
+
+  mutating func deleteRows(in range: Range<Int>) {
+    //bounds check range
+    var boundedRange: Range<Int> = range
+    if boundedRange.lowerBound <= 0 {
+      boundedRange = 1..<range.count
+    }
+
+    //found rows
+    if let rowsInRange: [Row] = self.data?.rows.filter({ boundedRange.contains(Int($0.reference)) }) {
+      //delete rows
+      for row in rowsInRange {
+        self.data?.rowsByReference.removeValue(forKey: row.reference)
+      }
+
+      //shift remaining rows up
+      try? self.shiftRows(in: boundedRange.upperBound..<self.numberOfRows, by: -boundedRange.count)
+
+    } //end if (found rows)
+  } //end deleteRows()
 
   /**
     Move rows to a new row reference position
