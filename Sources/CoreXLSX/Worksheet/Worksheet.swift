@@ -37,7 +37,9 @@ public struct Worksheet: Codable {
   }
 
   public struct Data: Codable {
-    public internal(set) var rows: [Row]
+
+    /// list of rows mapped by their row reference
+    public internal(set) var rowsByReference: [UInt: Row]
 
     enum CodingKeys: String, CodingKey {
       case rows = "row"
@@ -212,7 +214,7 @@ public struct Row: Codable {
 
   public internal(set) var height: Double?
   public internal(set) var customHeight: String?
-  public internal(set) var cells: [Cell]
+  public internal(set) var cellsByReference: [ColumnReference: Cell]
 
   enum CodingKeys: String, CodingKey {
     case cells = "c"
