@@ -25,6 +25,51 @@
 		9554BE5C24B73A2300544501 /* SharedStrings+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5B24B73A2300544501 /* SharedStrings+Extension.swift */; };
 		95A3F60B24BDB51000F9FCF0 /* SharedStrings+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A3F60A24BDB51000F9FCF0 /* SharedStrings+Encoding.swift */; };
 		95BECAF224BD56440051D2AA /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BECAF124BD56440051D2AA /* Dictionary+Extension.swift */; };
+		95EA09C824BDD3A7001C125E /* Worksheet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5924B736E200544501 /* Worksheet+Extension.swift */; };
+		95EA09C924BDD3AE001C125E /* Worksheet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5924B736E200544501 /* Worksheet+Extension.swift */; };
+		95EA09CA24BDD3AF001C125E /* Worksheet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5924B736E200544501 /* Worksheet+Extension.swift */; };
+		95EA09CB24BDD3B9001C125E /* Worksheet+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017424B8080C0069B85D /* Worksheet+Encoding.swift */; };
+		95EA09CC24BDD3B9001C125E /* Worksheet+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017424B8080C0069B85D /* Worksheet+Encoding.swift */; };
+		95EA09CD24BDD3BA001C125E /* Worksheet+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017424B8080C0069B85D /* Worksheet+Encoding.swift */; };
+		95EA09CE24BDD3BF001C125E /* XLSXDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4524B6F4EE00544501 /* XLSXDocument.swift */; };
+		95EA09CF24BDD3C0001C125E /* XLSXDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4524B6F4EE00544501 /* XLSXDocument.swift */; };
+		95EA09D024BDD3C0001C125E /* XLSXDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4524B6F4EE00544501 /* XLSXDocument.swift */; };
+		95EA09D124BDD3C3001C125E /* XLSXDocument+Editing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017A24B80E0F0069B85D /* XLSXDocument+Editing.swift */; };
+		95EA09D224BDD3C4001C125E /* XLSXDocument+Editing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017A24B80E0F0069B85D /* XLSXDocument+Editing.swift */; };
+		95EA09D324BDD3C4001C125E /* XLSXDocument+Editing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017A24B80E0F0069B85D /* XLSXDocument+Editing.swift */; };
+		95EA09D424BDD3C9001C125E /* Relationships+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017824B80A220069B85D /* Relationships+Extensions.swift */; };
+		95EA09D524BDD3CA001C125E /* Relationships+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017824B80A220069B85D /* Relationships+Extensions.swift */; };
+		95EA09D624BDD3CB001C125E /* Relationships+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017824B80A220069B85D /* Relationships+Extensions.swift */; };
+		95EA09D724BDD3D0001C125E /* Workbook+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4F24B724E100544501 /* Workbook+Extensions.swift */; };
+		95EA09D824BDD3D0001C125E /* Workbook+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4F24B724E100544501 /* Workbook+Extensions.swift */; };
+		95EA09D924BDD3D1001C125E /* Workbook+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4F24B724E100544501 /* Workbook+Extensions.swift */; };
+		95EA09DA24BDD3D5001C125E /* Workbook+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017624B808500069B85D /* Workbook+Encoding.swift */; };
+		95EA09DB24BDD3D5001C125E /* Workbook+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017624B808500069B85D /* Workbook+Encoding.swift */; };
+		95EA09DC24BDD3D6001C125E /* Workbook+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9540017624B808500069B85D /* Workbook+Encoding.swift */; };
+		95EA09DD24BDD3DA001C125E /* SharedStrings+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5B24B73A2300544501 /* SharedStrings+Extension.swift */; };
+		95EA09DE24BDD3DB001C125E /* SharedStrings+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5B24B73A2300544501 /* SharedStrings+Extension.swift */; };
+		95EA09DF24BDD3DC001C125E /* SharedStrings+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5B24B73A2300544501 /* SharedStrings+Extension.swift */; };
+		95EA09E024BDD3E0001C125E /* SharedStrings+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A3F60A24BDB51000F9FCF0 /* SharedStrings+Encoding.swift */; };
+		95EA09E124BDD3E0001C125E /* SharedStrings+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A3F60A24BDB51000F9FCF0 /* SharedStrings+Encoding.swift */; };
+		95EA09E224BDD3E1001C125E /* SharedStrings+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A3F60A24BDB51000F9FCF0 /* SharedStrings+Encoding.swift */; };
+		95EA09E324BDD3E5001C125E /* Path+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4724B6F55700544501 /* Path+Extension.swift */; };
+		95EA09E424BDD3E6001C125E /* Path+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4724B6F55700544501 /* Path+Extension.swift */; };
+		95EA09E524BDD3E6001C125E /* Path+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4724B6F55700544501 /* Path+Extension.swift */; };
+		95EA09E624BDD3EB001C125E /* Styles+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5124B7275500544501 /* Styles+Encoding.swift */; };
+		95EA09E724BDD3EC001C125E /* Styles+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5124B7275500544501 /* Styles+Encoding.swift */; };
+		95EA09E824BDD3EC001C125E /* Styles+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5124B7275500544501 /* Styles+Encoding.swift */; };
+		95EA09E924BDD3F0001C125E /* Styles+Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5324B72B8F00544501 /* Styles+Standard.swift */; };
+		95EA09EA24BDD3F1001C125E /* Styles+Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5324B72B8F00544501 /* Styles+Standard.swift */; };
+		95EA09EB24BDD3F2001C125E /* Styles+Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5324B72B8F00544501 /* Styles+Standard.swift */; };
+		95EA09EC24BDD3F7001C125E /* ContentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5724B731FA00544501 /* ContentTypes.swift */; };
+		95EA09ED24BDD3F8001C125E /* ContentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5724B731FA00544501 /* ContentTypes.swift */; };
+		95EA09EE24BDD3F8001C125E /* ContentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5724B731FA00544501 /* ContentTypes.swift */; };
+		95EA09EF24BDD3FC001C125E /* AttributedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4D24B7225C00544501 /* AttributedType.swift */; };
+		95EA09F024BDD3FD001C125E /* AttributedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4D24B7225C00544501 /* AttributedType.swift */; };
+		95EA09F124BDD3FD001C125E /* AttributedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4D24B7225C00544501 /* AttributedType.swift */; };
+		95EA09F224BDD415001C125E /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BECAF124BD56440051D2AA /* Dictionary+Extension.swift */; };
+		95EA09F324BDD416001C125E /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BECAF124BD56440051D2AA /* Dictionary+Extension.swift */; };
+		95EA09F424BDD416001C125E /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BECAF124BD56440051D2AA /* Dictionary+Extension.swift */; };
 		D12211DC227B555600888BCB /* Formula.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12211DB227B555600888BCB /* Formula.swift */; };
 		D15021C521A1C31800BFA4FC /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15021C321A1C31800BFA4FC /* ZIPFoundation.framework */; };
 		D15021C621A1C31800BFA4FC /* XMLCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15021C421A1C31800BFA4FC /* XMLCoder.framework */; };
@@ -618,16 +663,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95EA09EC24BDD3F7001C125E /* ContentTypes.swift in Sources */,
 				D1BBD9C7223D0E2F00B28C7B /* Styles.swift in Sources */,
+				95EA09E624BDD3EB001C125E /* Styles+Encoding.swift in Sources */,
 				D15021E121A1CB0500BFA4FC /* XLSXFile.swift in Sources */,
+				95EA09D124BDD3C3001C125E /* XLSXDocument+Editing.swift in Sources */,
+				95EA09D724BDD3D0001C125E /* Workbook+Extensions.swift in Sources */,
 				D1FD863F21A1F09E00B7F8D6 /* SharedStrings.swift in Sources */,
+				95EA09EF24BDD3FC001C125E /* AttributedType.swift in Sources */,
+				95EA09D424BDD3C9001C125E /* Relationships+Extensions.swift in Sources */,
+				95EA09DA24BDD3D5001C125E /* Workbook+Encoding.swift in Sources */,
 				D15021DF21A1CB0500BFA4FC /* CellReference.swift in Sources */,
 				D1A8191221A9D4F7004FCA33 /* CellQueries.swift in Sources */,
+				95EA09CE24BDD3BF001C125E /* XLSXDocument.swift in Sources */,
+				95EA09E024BDD3E0001C125E /* SharedStrings+Encoding.swift in Sources */,
 				D1A8190D21A9D139004FCA33 /* Cell.swift in Sources */,
 				D1B4F8E1221C10AC00C53C42 /* Path.swift in Sources */,
 				D15021E021A1CB0500BFA4FC /* ColumnReference.swift in Sources */,
+				95EA09C924BDD3AE001C125E /* Worksheet+Extension.swift in Sources */,
+				95EA09E924BDD3F0001C125E /* Styles+Standard.swift in Sources */,
 				D15021E221A1CB0500BFA4FC /* Relationships.swift in Sources */,
+				95EA09E324BDD3E5001C125E /* Path+Extension.swift in Sources */,
 				D15021E321A1CB0500BFA4FC /* Worksheet.swift in Sources */,
+				95EA09CB24BDD3B9001C125E /* Worksheet+Encoding.swift in Sources */,
+				95EA09F224BDD415001C125E /* Dictionary+Extension.swift in Sources */,
+				95EA09DD24BDD3DA001C125E /* SharedStrings+Extension.swift in Sources */,
 				D1EB9C6C21A98FFE002F2254 /* Workbook.swift in Sources */,
 				D15C747322CB459C0041320B /* Comments.swift in Sources */,
 			);
@@ -637,16 +697,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95EA09ED24BDD3F8001C125E /* ContentTypes.swift in Sources */,
 				D1BBD9C8223D0E2F00B28C7B /* Styles.swift in Sources */,
+				95EA09E724BDD3EC001C125E /* Styles+Encoding.swift in Sources */,
 				D15021FD21A1D1DB00BFA4FC /* XLSXFile.swift in Sources */,
+				95EA09D224BDD3C4001C125E /* XLSXDocument+Editing.swift in Sources */,
+				95EA09D824BDD3D0001C125E /* Workbook+Extensions.swift in Sources */,
 				D1FD864021A1F09E00B7F8D6 /* SharedStrings.swift in Sources */,
+				95EA09F124BDD3FD001C125E /* AttributedType.swift in Sources */,
+				95EA09D524BDD3CA001C125E /* Relationships+Extensions.swift in Sources */,
+				95EA09DB24BDD3D5001C125E /* Workbook+Encoding.swift in Sources */,
 				D15021FB21A1D1DB00BFA4FC /* CellReference.swift in Sources */,
 				D1A8191321A9D4F8004FCA33 /* CellQueries.swift in Sources */,
+				95EA09CF24BDD3C0001C125E /* XLSXDocument.swift in Sources */,
+				95EA09E124BDD3E0001C125E /* SharedStrings+Encoding.swift in Sources */,
 				D1A8190E21A9D13B004FCA33 /* Cell.swift in Sources */,
 				D1B4F8E2221C10AC00C53C42 /* Path.swift in Sources */,
 				D15021FC21A1D1DB00BFA4FC /* ColumnReference.swift in Sources */,
+				95EA09C824BDD3A7001C125E /* Worksheet+Extension.swift in Sources */,
+				95EA09EA24BDD3F1001C125E /* Styles+Standard.swift in Sources */,
 				D15021FE21A1D1DB00BFA4FC /* Relationships.swift in Sources */,
+				95EA09E424BDD3E6001C125E /* Path+Extension.swift in Sources */,
 				D15021FF21A1D1DB00BFA4FC /* Worksheet.swift in Sources */,
+				95EA09CC24BDD3B9001C125E /* Worksheet+Encoding.swift in Sources */,
+				95EA09F324BDD416001C125E /* Dictionary+Extension.swift in Sources */,
+				95EA09DE24BDD3DB001C125E /* SharedStrings+Extension.swift in Sources */,
 				D1EB9C6D21A98FFE002F2254 /* Workbook.swift in Sources */,
 				D15C747422CB459C0041320B /* Comments.swift in Sources */,
 			);
@@ -656,16 +731,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95EA09EE24BDD3F8001C125E /* ContentTypes.swift in Sources */,
 				D1BBD9C9223D0E2F00B28C7B /* Styles.swift in Sources */,
+				95EA09E824BDD3EC001C125E /* Styles+Encoding.swift in Sources */,
 				D150221321A1D97E00BFA4FC /* XLSXFile.swift in Sources */,
+				95EA09D324BDD3C4001C125E /* XLSXDocument+Editing.swift in Sources */,
+				95EA09D924BDD3D1001C125E /* Workbook+Extensions.swift in Sources */,
 				D1FD864121A1F09E00B7F8D6 /* SharedStrings.swift in Sources */,
+				95EA09F024BDD3FD001C125E /* AttributedType.swift in Sources */,
+				95EA09D624BDD3CB001C125E /* Relationships+Extensions.swift in Sources */,
+				95EA09DC24BDD3D6001C125E /* Workbook+Encoding.swift in Sources */,
 				D150221121A1D97E00BFA4FC /* CellReference.swift in Sources */,
 				D1A8191421A9D4F8004FCA33 /* CellQueries.swift in Sources */,
+				95EA09D024BDD3C0001C125E /* XLSXDocument.swift in Sources */,
+				95EA09E224BDD3E1001C125E /* SharedStrings+Encoding.swift in Sources */,
 				D1A8190F21A9D13B004FCA33 /* Cell.swift in Sources */,
 				D1B4F8E3221C10AC00C53C42 /* Path.swift in Sources */,
 				D150221221A1D97E00BFA4FC /* ColumnReference.swift in Sources */,
+				95EA09CA24BDD3AF001C125E /* Worksheet+Extension.swift in Sources */,
+				95EA09EB24BDD3F2001C125E /* Styles+Standard.swift in Sources */,
 				D150221421A1D97E00BFA4FC /* Relationships.swift in Sources */,
+				95EA09E524BDD3E6001C125E /* Path+Extension.swift in Sources */,
 				D150221521A1D97E00BFA4FC /* Worksheet.swift in Sources */,
+				95EA09CD24BDD3BA001C125E /* Worksheet+Encoding.swift in Sources */,
+				95EA09F424BDD416001C125E /* Dictionary+Extension.swift in Sources */,
+				95EA09DF24BDD3DC001C125E /* SharedStrings+Extension.swift in Sources */,
 				D1EB9C6E21A98FFE002F2254 /* Workbook.swift in Sources */,
 				D15C747522CB459D0041320B /* Comments.swift in Sources */,
 			);
