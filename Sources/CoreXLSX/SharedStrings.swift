@@ -29,8 +29,8 @@ public struct SharedStrings: Codable, Equatable {
     }
   }
 
-  public let uniqueCount: UInt?
-  public let items: [Item]
+  public internal(set) var uniqueCount: UInt
+  public internal(set) var items: [Item]
 
   enum CodingKeys: String, CodingKey {
     case items = "si"

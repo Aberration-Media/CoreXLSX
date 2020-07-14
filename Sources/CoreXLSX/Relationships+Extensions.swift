@@ -27,10 +27,14 @@ public extension Relationships {
        - type: type of relationship
        - target: target document path for the relationship
       */
-  mutating func addRelationship(with type: Relationship.SchemaType, target: String) {
+  @discardableResult mutating func addRelationship(with type: Relationship.SchemaType, target: String) -> Relationship {
     // create new relationship
     let relationshipId = "rId\(items.count + 1)"
     let relationship = Relationship(id: relationshipId, type: type, target: target)
     items.append(relationship)
+
+    return relationship
+
   } // end addRelationship()
+
 } // end extension Relationship

@@ -37,7 +37,7 @@ public struct Worksheet: Codable {
   }
 
   public struct Data: Codable {
-    public let rows: [Row]
+    public internal(set) var rows: [Row]
 
     enum CodingKeys: String, CodingKey {
       case rows = "row"
@@ -125,7 +125,7 @@ public struct Worksheet: Codable {
     return columns
   }
 
-  public let data: Data?
+  public internal(set) var data: Data?
 
   @available(*, deprecated, renamed: "data")
   public var sheetData: SheetData {
@@ -210,9 +210,9 @@ public struct Row: Codable {
     return height?.description
   }
 
-  public let height: Double?
-  public let customHeight: String?
-  public let cells: [Cell]
+  public internal(set) var height: Double?
+  public internal(set) var customHeight: String?
+  public internal(set) var cells: [Cell]
 
   enum CodingKeys: String, CodingKey {
     case cells = "c"

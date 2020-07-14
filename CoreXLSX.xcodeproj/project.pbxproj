@@ -18,7 +18,7 @@
 		9554BE4C24B6F64000544501 /* XLSXDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4924B6F5D700544501 /* XLSXDocument.swift */; };
 		9554BE4E24B7225C00544501 /* AttributedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4D24B7225C00544501 /* AttributedType.swift */; };
 		9554BE5024B724E100544501 /* Workbook+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE4F24B724E100544501 /* Workbook+Extensions.swift */; };
-		9554BE5224B7275500544501 /* Styles+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5124B7275500544501 /* Styles+Extension.swift */; };
+		9554BE5224B7275500544501 /* Styles+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5124B7275500544501 /* Styles+Encoding.swift */; };
 		9554BE5424B72B8F00544501 /* Styles+Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5324B72B8F00544501 /* Styles+Standard.swift */; };
 		9554BE5824B731FA00544501 /* ContentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5724B731FA00544501 /* ContentTypes.swift */; };
 		9554BE5A24B736E200544501 /* Worksheet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5924B736E200544501 /* Worksheet+Extension.swift */; };
@@ -132,7 +132,7 @@
 		9554BE4924B6F5D700544501 /* XLSXDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLSXDocument.swift; sourceTree = "<group>"; };
 		9554BE4D24B7225C00544501 /* AttributedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedType.swift; sourceTree = "<group>"; };
 		9554BE4F24B724E100544501 /* Workbook+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workbook+Extensions.swift"; sourceTree = "<group>"; };
-		9554BE5124B7275500544501 /* Styles+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Styles+Extension.swift"; sourceTree = "<group>"; };
+		9554BE5124B7275500544501 /* Styles+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Styles+Encoding.swift"; sourceTree = "<group>"; };
 		9554BE5324B72B8F00544501 /* Styles+Standard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Styles+Standard.swift"; sourceTree = "<group>"; };
 		9554BE5724B731FA00544501 /* ContentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypes.swift; sourceTree = "<group>"; };
 		9554BE5924B736E200544501 /* Worksheet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Worksheet+Extension.swift"; sourceTree = "<group>"; };
@@ -310,7 +310,7 @@
 				D1B4F8DF221C10AC00C53C42 /* Path.swift */,
 				9554BE4724B6F55700544501 /* Path+Extension.swift */,
 				D1BBD9C5223D0E2F00B28C7B /* Styles.swift */,
-				9554BE5124B7275500544501 /* Styles+Extension.swift */,
+				9554BE5124B7275500544501 /* Styles+Encoding.swift */,
 				9554BE5324B72B8F00544501 /* Styles+Standard.swift */,
 				82AAB1C722A154A800C30F99 /* Comments.swift */,
 				9554BE5724B731FA00544501 /* ContentTypes.swift */,
@@ -664,7 +664,7 @@
 				D1BBD9C6223D0E2F00B28C7B /* Styles.swift in Sources */,
 				9540017724B808500069B85D /* Workbook+Encoding.swift in Sources */,
 				OBJ_62 /* CellReference.swift in Sources */,
-				9554BE5224B7275500544501 /* Styles+Extension.swift in Sources */,
+				9554BE5224B7275500544501 /* Styles+Encoding.swift in Sources */,
 				D1FD863E21A1F09E00B7F8D6 /* SharedStrings.swift in Sources */,
 				OBJ_63 /* ColumnReference.swift in Sources */,
 				9554BE4624B6F4EE00544501 /* XLSXDocument.swift in Sources */,

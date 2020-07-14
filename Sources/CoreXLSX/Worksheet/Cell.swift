@@ -30,16 +30,16 @@ public enum CellType: String, Codable {
 /// [docs](https://wiki.ucl.ac.uk/display/~ucftpw2/2013/10/22/Using+git+for+version+control+of+Excel+spreadsheets+-+part+2+of+3)
 public struct Cell: Codable, Equatable {
   public let reference: CellReference
-  public let type: CellType?
+  public internal(set) var type: CellType?
 
   // FIXME: Attribute "s" in a cell is an index into the styles table,
   // while the cell type "s" corresponds to the shared string table.
   // Can XMLCoder distinguish between an attribute and an
   // element having the same name?
-  public let s: String?
-  public let inlineString: InlineString?
-  public let formula: Formula?
-  public let value: String?
+  public internal(set) var s: String? //TODO: change name to 'style'
+  public internal(set) var inlineString: InlineString?
+  public internal(set) var formula: Formula?
+  public internal(set) var value: String?
 
   public struct Formula: Codable, Equatable {
     public let calculationIndex: Int?

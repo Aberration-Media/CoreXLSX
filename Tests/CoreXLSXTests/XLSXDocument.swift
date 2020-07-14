@@ -69,4 +69,41 @@ public class XLSXDocumentTest: XCTestCase {
       XCTAssert(false, "Error saving file: \(error)")
     }
   } // end testSaveExistingDocument()
+
+  func testSaveEditedDocument() {
+
+    let fileName: String = "Simple-mine.xlsx" //Dates.xlsx"
+    guard let file =
+      XLSXFile(filepath: "\(currentWorkingPath)/\(fileName)") else {
+      XCTAssert(false, "failed to open the file")
+      return
+    }
+
+    // create document
+    let document = XLSXDocument(with: file)
+    document.modifyWorksheet(at: 0) { ( worksheet: inout Worksheet, sharedStrings: inout SharedStrings) in
+
+      //add new row
+      let styles = worksheet.lastRow?.styles()
+      worksheet.addRow(with: ["abc", "def", "hij", "klm"], sharedStrings: &sharedStrings, styles: styles)
+    }
+
+    //debug cells
+    for worksheet in document.worksheets {
+      for row in worksheet.data?.rows ?? [] {
+        for c in row.cells {
+          print(c)
+        }
+      }
+    } //end for (worksheets)
+
+    do {
+      let filePath: URL = outputFolderURL.appendingPathComponent("Test.xlsx")
+      print("output path: \(filePath)")
+      try document.save(to: filePath.path, overwrite: true)
+
+    } catch {
+      XCTAssert(false, "Error saving file: \(error)")
+    }
+  } // end testSaveEmptyDocument()
 } // end class XLSXDocumentTest

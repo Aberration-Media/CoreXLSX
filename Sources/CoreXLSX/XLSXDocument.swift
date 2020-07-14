@@ -119,7 +119,12 @@ public class XLSXDocument {
   }()
 
   /// list of work sheets in document
-  public lazy var worksheets: [(path: Path, sheet: Worksheet)] = {
+  public var worksheets: [Worksheet] {
+    return worksheetsMap.map { $0.sheet }
+  }
+
+  /// list of work sheets in document mapped to their corresponding path
+  public lazy var worksheetsMap: [(path: Path, sheet: Worksheet)] = {
     var sheets: [(path: Path, sheet: Worksheet)] = []
 
     // file exists
@@ -205,19 +210,20 @@ public class XLSXDocument {
   }()
 
   /// shared strings in document
-  public lazy var sharedStrings: SharedStrings? = {
-    var result: SharedStrings?
+  public lazy var sharedStrings: SharedStrings = {
 
     // file exists
     if let safeFile = file {
       // get shared strings
       do {
-        result = try safeFile.parseSharedStrings()
+        return try safeFile.parseSharedStrings()
       } catch {
         print("Error loading shared strings: \(error)")
       }
     } // end if (found associated file)
 
+    //create empty shared strings
+    let result = SharedStrings()
     return result
 
   }()
@@ -297,11 +303,9 @@ public class XLSXDocument {
       }
 
       // write shared strings
-      if let strings = sharedStrings {
-        try writeEntry(strings, Self.sharedStringsPath.value, in: archive, withRootKey: "sst", rootAttributes: Self.baseAttributes)
-        // append styles to content types
-        contentConfiguration.addOverride(with: Self.sharedStringsPath.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml")
-      }
+      try writeEntry(self.sharedStrings, Self.sharedStringsPath.value, in: archive, withRootKey: "sst", rootAttributes: Self.baseAttributes)
+      // append styles to content types
+      contentConfiguration.addOverride(with: Self.sharedStringsPath.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml")
 
       // save work books
       for data in workbooksMap {
@@ -313,7 +317,7 @@ public class XLSXDocument {
       } // end for (workbooks)
 
       // save work sheets
-      for data in worksheets {
+      for data in worksheetsMap {
         // write worksheet
         try writeEntry(data.sheet, data.path.value, in: archive, withRootKey: "worksheet")
         // append worksheet path to content type configuration

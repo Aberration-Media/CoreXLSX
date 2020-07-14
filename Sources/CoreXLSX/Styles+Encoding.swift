@@ -1,5 +1,5 @@
 //
-//  Styles+Extension.swift
+//  Styles+Encoding.swift
 //  CoreXLSXmacOS
 //
 //  Created by Daniel Welsh on 9/7/20.

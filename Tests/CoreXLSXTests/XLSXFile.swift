@@ -155,6 +155,7 @@ final class CoreXLSXTests: XCTestCase {
     }
   }
 
+  @available(*, deprecated)
   func testLegacyPublicAPI() throws {
     guard let file =
       XLSXFile(filepath: "\(currentWorkingPath)/categories.xlsx") else {
