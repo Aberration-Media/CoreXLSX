@@ -89,6 +89,7 @@ public class XLSXDocumentTest: XCTestCase {
       worksheet.insertRow(at: 3, with: ["in1", "in2"], sharedStrings: &sharedStrings, styles: styles)
       worksheet.deleteRows(in: 0..<3)
       worksheet.updateRowValues(at: 4, with: ["replace RICH"], sharedStrings: &sharedStrings)
+      worksheet.updateColumnValues(at: 5, row: 2, with: ["test1", "test2", "test3", "test4", "test5", "test5"], sharedStrings: &sharedStrings)
     }
 
 //    //debug cells

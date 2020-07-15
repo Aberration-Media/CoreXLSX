@@ -80,6 +80,7 @@ public extension Worksheet {
       //update existing cell
       if self.data?.rowsByReference[rowIndex]?.cellsByReference[column] != nil {
         self.data?.rowsByReference[rowIndex]?.cellsByReference[column]?.value = String(valueIndex)
+        self.data?.rowsByReference[rowIndex]?.cellsByReference[column]?.type = .sharedString
       }
       //create new cell
       else {
@@ -97,7 +98,7 @@ public extension Worksheet {
 
   mutating func updateRowValues(
     at rowIndex: UInt,
-    column: Int = 1,
+    column: UInt = 1,
     with values: [String],
     sharedStrings: inout SharedStrings
   ) {
@@ -106,7 +107,7 @@ public extension Worksheet {
     if self.data?.rowsByReference[rowIndex] != nil {
 
       //update cells
-      let firstColumn: Int = column < 1 ? 1 : column
+      let firstColumn: Int = Int(column < 1 ? 1 : column)
       for (index, value) in values.enumerated() {
         if let columnReference = ColumnReference(index + firstColumn) {
           self.updateCellValue(at: rowIndex, column: columnReference, with: value, sharedStrings: &sharedStrings)
@@ -120,6 +121,40 @@ public extension Worksheet {
     }
 
   } //end updateRowValues()
+
+
+  mutating func updateColumnValues(
+    at columnIndex: Int,
+    row: UInt = 1,
+    with values: [String],
+    sharedStrings: inout SharedStrings
+  ) {
+    //valid index
+    if let columnReference = ColumnReference(columnIndex) {
+
+      //update values
+      let firstRow: UInt = row < 1 ? 1 : row
+      for (index, value) in values.enumerated() {
+
+        //create row (if required)
+        let rowIndex: UInt = firstRow + UInt(index)
+        if self.data?.rowsByReference[rowIndex] == nil {
+          let row = Row(reference: rowIndex, height: nil, customHeight: nil, cells: [])
+          self.data?.rowsByReference[rowIndex] = row
+        }
+
+        //set value
+        self.updateCellValue(at: rowIndex, column: columnReference, with: value, sharedStrings: &sharedStrings)
+
+      } //end for (values)
+
+    }
+    //invalid row index
+    else {
+      print("Invalid column index: \(columnIndex)")
+    }
+
+  } //end updateColumnValues()
 
   /**
     Add a row at the end of the worksheet with the specified values
