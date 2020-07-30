@@ -34,8 +34,8 @@ public struct Styles: Codable, Equatable {
     case borders
     case cellStyleFormats = "cellStyleXfs"
     case cellFormats = "cellXfs"
+    case cellStyles //cellStyles must appear above dxfs or Excel will complain about the format
     case differentialFormats = "dxfs"
-    case cellStyles
     case tableStyles
     case colors
   }
@@ -43,8 +43,18 @@ public struct Styles: Codable, Equatable {
 
 public struct Color: Codable, Equatable {
   public let indexed: Int?
+  public let theme: Int?
   public let auto: Int?
   public let rgb: String?
+  public let tint: Double?
+
+  init(indexed: Int?, theme: Int? = nil, auto: Int? = nil, rgb: String? = nil, tint: Double? = nil) {
+    self.indexed = indexed
+    self.theme = theme
+    self.auto = auto
+    self.rgb = rgb
+    self.tint = tint
+  }
 }
 
 public struct NumberFormats: Codable, Equatable {
@@ -70,10 +80,12 @@ public struct NumberFormat: Codable, Equatable {
 public struct Fonts: Codable, Equatable {
   public let items: [Font]
   public let count: Int
+  public let knownFonts: Int?
 
   enum CodingKeys: String, CodingKey {
     case items = "font"
     case count
+    case knownFonts = "x14ac:lnownFonts"
   }
 
   public init(from decoder: Decoder) throws {
@@ -81,53 +93,44 @@ public struct Fonts: Codable, Equatable {
     count = try container.decode(Int.self, forKey: .count)
     items = try container.decode([Font?].self, forKey: .items)
       .map { $0 ?? Font() }
+    knownFonts = try container.decodeIfPresent(Int.self, forKey: .knownFonts)
   }
 
   init(items: [Font], count: Int) {
     self.items = items
     self.count = count
+    self.knownFonts = nil
   }
 }
 
 public struct Font: Codable, Equatable {
-  public struct Size: Codable, Equatable {
+
+  public struct Size: DoubleValueElement {
     public let value: Double
-
-    enum CodingKeys: String, CodingKey {
-      case value = "val"
-    }
   }
 
-  public struct Name: Codable, Equatable {
+  public struct Name: StringValueElement {
     public let value: String
-
-    enum CodingKeys: String, CodingKey {
-      case value = "val"
-    }
   }
 
-  public struct Bold: Codable, Equatable {
+  public struct Bold: OptionalBoolValueElement {
     public let value: Bool?
-
-    enum CodingKeys: String, CodingKey {
-      case value = "val"
-    }
   }
 
-  public struct Italic: Codable, Equatable {
+  public struct Italic: OptionalBoolValueElement {
     public let value: Bool?
-
-    enum CodingKeys: String, CodingKey {
-      case value = "val"
-    }
   }
 
-  public struct Strike: Codable, Equatable {
+  public struct Strike: OptionalBoolValueElement {
     public let value: Bool?
+  }
 
-    enum CodingKeys: String, CodingKey {
-      case value = "val"
-    }
+  public struct Family: StringValueElement {
+    public let value: String
+  }
+
+  public struct Scheme: StringValueElement {
+    public let value: String
   }
 
   public let size: Size?
@@ -259,10 +262,11 @@ public struct Format: Codable, Equatable {
     public let wrapText: Bool?
   }
 
-  public let numberFormatId: Int
+  //made numberFormatId optional - it seems dxf's don't require it (see jewelershealthcare.com-census.1.xlsx)
+  public let numberFormatId: Int?
   public let borderId: Int?
   public let fillId: Int?
-  public let fontId: Int
+  public let fontId: Int?
   public let applyNumberFormat: Bool?
   public let applyFont: Bool?
   public let applyFill: Bool?

@@ -10,8 +10,9 @@ import Foundation
 public extension Workbook {
   /// create empty workbook
   init() {
-    views = nil
-    sheets = Sheets()
+    self.properties = nil
+    self.views = nil
+    self.sheets = Sheets()
   }
 } // end extension Workbook
 

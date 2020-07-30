@@ -153,6 +153,11 @@ typealias PageSetUpPr = PageSetUpProperties
 public struct PageSetUpProperties: Codable, Equatable {
   public let fitToPage: Bool?
   public let autoPageBreaks: Bool?
+
+  enum CodingKeys: String, CodingKey {
+    case fitToPage
+    case autoPageBreaks
+  }
 }
 
 public struct SheetViews: Codable {
@@ -168,6 +173,13 @@ public struct SheetView: Codable {
   public let showGridLines: Bool?
   public let defaultGridColor: String?
   public let pane: Pane?
+
+  enum CodingKeys: String, CodingKey {
+    case workbookViewId
+    case showGridLines
+    case defaultGridColor
+    case pane
+  }
 }
 
 public struct Pane: Codable {

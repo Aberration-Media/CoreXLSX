@@ -18,6 +18,7 @@ public enum CoreXLSXWriteError: Error {
 }
 
 public class XLSXDocument {
+
   // MARK: Configuration XML
 
   // disabled lint rule to allow hard coded XML entries
@@ -84,7 +85,19 @@ public class XLSXDocument {
     "xmlns": "http://schemas.openxmlformats.org/package/2006/relationships",
   ]
 
+  /// XML styles element attributes
+  private static let stylesAttributes: [String: String] = [
+    "xmlns": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
+    "xmlns:mc": "http://schemas.openxmlformats.org/markup-compatibility/2006",
+    "mc:Ignorable": "x14ac x16r2",
+    "xmlns:x14ac": "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac",
+    "xmlns:x16r2": "http://schemas.microsoft.com/office/spreadsheetml/2015/02/main",
+  ]
+
   // MARK: Document Properties
+
+  /// delegate for document events
+  public weak var documentDelegate: XLSXDocumentDelegate?
 
   /// file associated with document
   public let file: XLSXFile?
@@ -100,8 +113,9 @@ public class XLSXDocument {
 
     // file exists
     if let safeFile = file {
-      // get document paths
-      if let paths = try? safeFile.parseDocumentPaths() {
+      do {
+        // get document paths
+        let paths = try safeFile.parseDocumentPaths()
         // retrieve workbooks
         for path in paths {
           do {
@@ -109,8 +123,12 @@ public class XLSXDocument {
             books.append((path: Path(rootPath: path), book: workbook))
           } catch {
             print("Error loading workbook(\(path)): \(error)")
+            documentDelegate?.didReceiveError(for: self, error: error)
           }
         } // end for()
+
+      } catch {
+        documentDelegate?.didReceiveError(for: self, error: error)
       }
     } // end if (found associated file)
 
@@ -130,7 +148,8 @@ public class XLSXDocument {
     // file exists
     if let safeFile = file {
       // get worksheet paths
-      if let paths = try? safeFile.parseWorksheetPaths() {
+      do {
+        let paths = try safeFile.parseWorksheetPaths()
 
         // retrieve work sheets
         for path in paths {
@@ -139,8 +158,11 @@ public class XLSXDocument {
             sheets.append((path: Path(rootPath: path), sheet: worksheet))
           } catch {
             print("Error loading worksheet(\(path)): \(error)")
+            documentDelegate?.didReceiveError(for: self, error: error)
           }
         } // end for()
+      } catch {
+        documentDelegate?.didReceiveError(for: self, error: error)
       }
     } // end if (found associated file)
 
@@ -159,6 +181,7 @@ public class XLSXDocument {
         relations = try safeFile.parseRelationships()
       } catch {
         print("Error loading root relationships: \(error)")
+        documentDelegate?.didReceiveError(for: self, error: error)
       }
     } // end if (found associated file)
 
@@ -173,7 +196,8 @@ public class XLSXDocument {
     // file exists
     if let safeFile = file {
       // get document paths
-      if let paths = try? safeFile.parseDocumentPaths() {
+      do {
+        let paths = try safeFile.parseDocumentPaths()
 
         // retrieve relationship
         for path in paths {
@@ -184,6 +208,8 @@ public class XLSXDocument {
             print("Error loading document relationships(\(path)): \(error)")
           }
         } // end for()
+      } catch {
+        documentDelegate?.didReceiveError(for: self, error: error)
       }
     } // end if (found associated file)
 
@@ -202,6 +228,7 @@ public class XLSXDocument {
         result = try safeFile.parseStyles()
       } catch {
         print("Error loading styles: \(error)")
+        documentDelegate?.didReceiveError(for: self, error: error)
       }
     } // end if (found associated file)
 
@@ -219,6 +246,7 @@ public class XLSXDocument {
         return try safeFile.parseSharedStrings()
       } catch {
         print("Error loading shared strings: \(error)")
+        documentDelegate?.didReceiveError(for: self, error: error)
       }
     } // end if (found associated file)
 
@@ -281,7 +309,7 @@ public class XLSXDocument {
         throw CoreXLSXWriteError.fileAlreadyExists
       }
     } // end if (file exists)
-    print("save to archive: \(archiveURL)")
+
     // create archive
     if let archive = Archive(url: archiveURL, accessMode: .create) {
       // create content type file
@@ -297,7 +325,7 @@ public class XLSXDocument {
 
       // write styles
       if let safeStyles = styles {
-        try writeEntry(safeStyles, Self.stylesPath.value, in: archive, withRootKey: "styleSheet", rootAttributes: Self.baseAttributes)
+        try writeEntry(safeStyles, Self.stylesPath.value, in: archive, withRootKey: "styleSheet", rootAttributes: Self.stylesAttributes)
         // append styles to content types
         contentConfiguration.addOverride(with: Self.stylesPath.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml")
       }
@@ -308,7 +336,13 @@ public class XLSXDocument {
       contentConfiguration.addOverride(with: Self.sharedStringsPath.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml")
 
       // save work books
-      for data in workbooksMap {
+      for var data in workbooksMap {
+        print("workbook props: \(data.book.properties)")
+        //ensure workbook properties exist (required for Excel compatibility)
+        if data.book.properties == nil {
+          data.book.properties = Workbook.Properties(defaultThemeVersion: 164011, dateCompatibility: nil)
+        }
+print("workbook props after: \(data.book.properties)")
         // write workbook
         try writeEntry(data.book, data.path.value, in: archive, withRootKey: "workbook")
         print("wrote workbook: \(data.path)")

@@ -8,5 +8,6 @@
 import Foundation
 
 // enable model attributes to be encoded correctly
+extension Workbook.Properties: AttributeType {}
 extension Workbook.Sheet: AttributeType {}
 extension Workbook.View: AttributeType {}

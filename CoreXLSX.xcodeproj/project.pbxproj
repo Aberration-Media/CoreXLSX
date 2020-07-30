@@ -23,6 +23,18 @@
 		9554BE5824B731FA00544501 /* ContentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5724B731FA00544501 /* ContentTypes.swift */; };
 		9554BE5A24B736E200544501 /* Worksheet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5924B736E200544501 /* Worksheet+Extension.swift */; };
 		9554BE5C24B73A2300544501 /* SharedStrings+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5B24B73A2300544501 /* SharedStrings+Extension.swift */; };
+		958CF5C424D11176009770D7 /* BoolConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C324D11176009770D7 /* BoolConverter.swift */; };
+		958CF5C624D265CC009770D7 /* XLSXDocumentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C524D265CC009770D7 /* XLSXDocumentDelegate.swift */; };
+		958CF5C824D2690E009770D7 /* SingleValueElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C724D2690E009770D7 /* SingleValueElement.swift */; };
+		958CF5C924D27550009770D7 /* BoolConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C324D11176009770D7 /* BoolConverter.swift */; };
+		958CF5CA24D27550009770D7 /* BoolConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C324D11176009770D7 /* BoolConverter.swift */; };
+		958CF5CB24D27551009770D7 /* BoolConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C324D11176009770D7 /* BoolConverter.swift */; };
+		958CF5CC24D27592009770D7 /* XLSXDocumentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C524D265CC009770D7 /* XLSXDocumentDelegate.swift */; };
+		958CF5CD24D27592009770D7 /* XLSXDocumentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C524D265CC009770D7 /* XLSXDocumentDelegate.swift */; };
+		958CF5CE24D27593009770D7 /* XLSXDocumentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C524D265CC009770D7 /* XLSXDocumentDelegate.swift */; };
+		958CF5CF24D275A6009770D7 /* SingleValueElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C724D2690E009770D7 /* SingleValueElement.swift */; };
+		958CF5D024D275A6009770D7 /* SingleValueElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C724D2690E009770D7 /* SingleValueElement.swift */; };
+		958CF5D124D275A7009770D7 /* SingleValueElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C724D2690E009770D7 /* SingleValueElement.swift */; };
 		95A3F60B24BDB51000F9FCF0 /* SharedStrings+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A3F60A24BDB51000F9FCF0 /* SharedStrings+Encoding.swift */; };
 		95BECAF224BD56440051D2AA /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BECAF124BD56440051D2AA /* Dictionary+Extension.swift */; };
 		95EA09C824BDD3A7001C125E /* Worksheet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5924B736E200544501 /* Worksheet+Extension.swift */; };
@@ -184,6 +196,9 @@
 		9554BE5724B731FA00544501 /* ContentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypes.swift; sourceTree = "<group>"; };
 		9554BE5924B736E200544501 /* Worksheet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Worksheet+Extension.swift"; sourceTree = "<group>"; };
 		9554BE5B24B73A2300544501 /* SharedStrings+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SharedStrings+Extension.swift"; sourceTree = "<group>"; };
+		958CF5C324D11176009770D7 /* BoolConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolConverter.swift; sourceTree = "<group>"; };
+		958CF5C524D265CC009770D7 /* XLSXDocumentDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLSXDocumentDelegate.swift; sourceTree = "<group>"; };
+		958CF5C724D2690E009770D7 /* SingleValueElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleValueElement.swift; sourceTree = "<group>"; };
 		95A3F60A24BDB51000F9FCF0 /* SharedStrings+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SharedStrings+Encoding.swift"; sourceTree = "<group>"; };
 		95BECAF124BD56440051D2AA /* Dictionary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		"CoreXLSX::CoreXLSX::Product" /* CoreXLSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CoreXLSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -285,6 +300,8 @@
 			isa = PBXGroup;
 			children = (
 				95BECAF124BD56440051D2AA /* Dictionary+Extension.swift */,
+				958CF5C324D11176009770D7 /* BoolConverter.swift */,
+				958CF5C724D2690E009770D7 /* SingleValueElement.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -358,6 +375,7 @@
 				OBJ_13 /* XLSXFile.swift */,
 				9554BE4524B6F4EE00544501 /* XLSXDocument.swift */,
 				9540017A24B80E0F0069B85D /* XLSXDocument+Editing.swift */,
+				958CF5C524D265CC009770D7 /* XLSXDocumentDelegate.swift */,
 				OBJ_14 /* Relationships.swift */,
 				9540017824B80A220069B85D /* Relationships+Extensions.swift */,
 				D1C96B7F21A806A500303975 /* Workbook.swift */,
@@ -683,12 +701,15 @@
 				95EA09C924BDD3AE001C125E /* Worksheet+Extension.swift in Sources */,
 				95EA09E924BDD3F0001C125E /* Styles+Standard.swift in Sources */,
 				D15021E221A1CB0500BFA4FC /* Relationships.swift in Sources */,
+				958CF5CC24D27592009770D7 /* XLSXDocumentDelegate.swift in Sources */,
 				95EA09E324BDD3E5001C125E /* Path+Extension.swift in Sources */,
 				D15021E321A1CB0500BFA4FC /* Worksheet.swift in Sources */,
+				958CF5C924D27550009770D7 /* BoolConverter.swift in Sources */,
 				95EA09CB24BDD3B9001C125E /* Worksheet+Encoding.swift in Sources */,
 				95EA09F224BDD415001C125E /* Dictionary+Extension.swift in Sources */,
 				95EA09DD24BDD3DA001C125E /* SharedStrings+Extension.swift in Sources */,
 				D1EB9C6C21A98FFE002F2254 /* Workbook.swift in Sources */,
+				958CF5CF24D275A6009770D7 /* SingleValueElement.swift in Sources */,
 				D15C747322CB459C0041320B /* Comments.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -717,12 +738,15 @@
 				95EA09C824BDD3A7001C125E /* Worksheet+Extension.swift in Sources */,
 				95EA09EA24BDD3F1001C125E /* Styles+Standard.swift in Sources */,
 				D15021FE21A1D1DB00BFA4FC /* Relationships.swift in Sources */,
+				958CF5CD24D27592009770D7 /* XLSXDocumentDelegate.swift in Sources */,
 				95EA09E424BDD3E6001C125E /* Path+Extension.swift in Sources */,
 				D15021FF21A1D1DB00BFA4FC /* Worksheet.swift in Sources */,
+				958CF5CA24D27550009770D7 /* BoolConverter.swift in Sources */,
 				95EA09CC24BDD3B9001C125E /* Worksheet+Encoding.swift in Sources */,
 				95EA09F324BDD416001C125E /* Dictionary+Extension.swift in Sources */,
 				95EA09DE24BDD3DB001C125E /* SharedStrings+Extension.swift in Sources */,
 				D1EB9C6D21A98FFE002F2254 /* Workbook.swift in Sources */,
+				958CF5D024D275A6009770D7 /* SingleValueElement.swift in Sources */,
 				D15C747422CB459C0041320B /* Comments.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -751,12 +775,15 @@
 				95EA09CA24BDD3AF001C125E /* Worksheet+Extension.swift in Sources */,
 				95EA09EB24BDD3F2001C125E /* Styles+Standard.swift in Sources */,
 				D150221421A1D97E00BFA4FC /* Relationships.swift in Sources */,
+				958CF5CE24D27593009770D7 /* XLSXDocumentDelegate.swift in Sources */,
 				95EA09E524BDD3E6001C125E /* Path+Extension.swift in Sources */,
 				D150221521A1D97E00BFA4FC /* Worksheet.swift in Sources */,
+				958CF5CB24D27551009770D7 /* BoolConverter.swift in Sources */,
 				95EA09CD24BDD3BA001C125E /* Worksheet+Encoding.swift in Sources */,
 				95EA09F424BDD416001C125E /* Dictionary+Extension.swift in Sources */,
 				95EA09DF24BDD3DC001C125E /* SharedStrings+Extension.swift in Sources */,
 				D1EB9C6E21A98FFE002F2254 /* Workbook.swift in Sources */,
+				958CF5D124D275A7009770D7 /* SingleValueElement.swift in Sources */,
 				D15C747522CB459D0041320B /* Comments.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -785,12 +812,15 @@
 				9540017524B8080C0069B85D /* Worksheet+Encoding.swift in Sources */,
 				95BECAF224BD56440051D2AA /* Dictionary+Extension.swift in Sources */,
 				9540017B24B80E0F0069B85D /* XLSXDocument+Editing.swift in Sources */,
+				958CF5C624D265CC009770D7 /* XLSXDocumentDelegate.swift in Sources */,
 				9540017924B80A220069B85D /* Relationships+Extensions.swift in Sources */,
 				9554BE5C24B73A2300544501 /* SharedStrings+Extension.swift in Sources */,
+				958CF5C424D11176009770D7 /* BoolConverter.swift in Sources */,
 				D1C96B8021A806A500303975 /* Workbook.swift in Sources */,
 				9554BE5024B724E100544501 /* Workbook+Extensions.swift in Sources */,
 				9554BE4E24B7225C00544501 /* AttributedType.swift in Sources */,
 				9554BE5424B72B8F00544501 /* Styles+Standard.swift in Sources */,
+				958CF5C824D2690E009770D7 /* SingleValueElement.swift in Sources */,
 				82AAB1C822A154A800C30F99 /* Comments.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

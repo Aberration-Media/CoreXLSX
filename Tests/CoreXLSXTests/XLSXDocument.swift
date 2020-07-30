@@ -9,7 +9,8 @@
 import Foundation
 import XCTest
 
-public class XLSXDocumentTest: XCTestCase {
+public class XLSXDocumentTest: XCTestCase, XLSXDocumentDelegate {
+
   // MARK: Test Properties
 
   /// ouput folder URL for saved documents
@@ -37,6 +38,7 @@ public class XLSXDocumentTest: XCTestCase {
   func testSaveEmptyDocument() {
     // create blank document
     let document = XLSXDocument()
+    document.documentDelegate = self
 
     do {
       let filePath: URL = outputFolderURL.appendingPathComponent("Empty.xlsx")
@@ -59,6 +61,7 @@ public class XLSXDocumentTest: XCTestCase {
 
     // create document
     let document = XLSXDocument(with: file)
+    document.documentDelegate = self
 
     do {
       let filePath: URL = outputFolderURL.appendingPathComponent(fileName)
@@ -81,6 +84,7 @@ public class XLSXDocumentTest: XCTestCase {
 
     // create document
     let document = XLSXDocument(with: file)
+    document.documentDelegate = self
     document.modifyWorksheet(at: 0) { ( worksheet: inout Worksheet, sharedStrings: inout SharedStrings) in
 
       //add new row
@@ -110,4 +114,11 @@ public class XLSXDocumentTest: XCTestCase {
       XCTAssert(false, "Error saving file: \(error)")
     }
   } // end testSaveEmptyDocument()
+
+  // MARK: - XLSXDocumentDelegate Functions
+
+  public func didReceiveError(for document: XLSXDocument, error: Error) {
+    XCTAssert(false, "Error retrieving file data: \(error)")
+  }
+
 } // end class XLSXDocumentTest

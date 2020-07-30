@@ -16,6 +16,14 @@
 //
 
 public struct Workbook: Codable, Equatable {
+
+  public struct Properties: Codable, Equatable {
+    public let defaultThemeVersion: Int //required for Excel compatibility
+    public let dateCompatibility: Int?
+  }
+
+  public var properties: Properties?
+
   public struct Views: Codable, Equatable {
     public let items: [View]
 
@@ -56,6 +64,7 @@ public struct Workbook: Codable, Equatable {
   public let sheets: Sheets
 
   enum CodingKeys: String, CodingKey {
+    case properties = "workbookPr"
     case views = "bookViews"
     case sheets
   }

@@ -9,6 +9,8 @@ import Foundation
 
 // enable model attributes to be encoded correctly
 extension SharedStrings: ExcludeAttributeType {
+
+  /// list of keys to encode as a sub element
   public static var nonAttributeKeys: [String]? {
     return ["si"]
   }
