@@ -52,7 +52,8 @@ public class XLSXDocumentTest: XCTestCase, XLSXDocumentDelegate {
 
   func testSaveExistingDocument() {
     // open test document
-    let fileName: String = "jewelershealthcare.com-census.1.xlsx"
+    //let fileName: String = "jewelershealthcare.com-census.1.xlsx"
+    let fileName: String = "categories.xlsx"
     guard let file =
       XLSXFile(filepath: "\(currentWorkingPath)/\(fileName)") else {
       XCTAssert(false, "failed to open the file")

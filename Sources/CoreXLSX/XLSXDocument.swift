@@ -30,6 +30,9 @@ public class XLSXDocument {
   private static let coreXML: String = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><cp:coreProperties xmlns:cp=\"http://schemas.openxmlformats.org/package/2006/metadata/core-properties\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>"
   // swiftlint:enable line_length
 
+  /// workbook properties default theme version
+  private static let defaultThemeVersion: Int = 164011
+
   // MARK: Document Paths
 
   /// '_rels/.rels' document path
@@ -310,6 +313,10 @@ public class XLSXDocument {
       }
     } // end if (file exists)
 
+    // TODO: There seems to be a Excel compatibility issue with ZipFoundation
+    // Possible causes related to the default system byte or version information:
+    // https://github.com/mvdnes/zip-rs/issues/23
+    // https://github.com/mvdnes/zip-rs/issues/72
     // create archive
     if let archive = Archive(url: archiveURL, accessMode: .create) {
       // create content type file
@@ -337,15 +344,16 @@ public class XLSXDocument {
 
       // save work books
       for var data in workbooksMap {
-        print("workbook props: \(data.book.properties)")
-        //ensure workbook properties exist (required for Excel compatibility)
+        //ensure workbook properties exist with defaultThemeVersion (required for Excel compatibility)
         if data.book.properties == nil {
-          data.book.properties = Workbook.Properties(defaultThemeVersion: 164011, dateCompatibility: nil)
+          data.book.properties = Workbook.Properties(defaultThemeVersion: Self.defaultThemeVersion, dateCompatibility: nil)
+        } else if data.book.properties?.defaultThemeVersion == nil {
+          data.book.properties?.defaultThemeVersion = Self.defaultThemeVersion
         }
-print("workbook props after: \(data.book.properties)")
+
         // write workbook
         try writeEntry(data.book, data.path.value, in: archive, withRootKey: "workbook")
-        print("wrote workbook: \(data.path)")
+
         // append workbook path to content type configuration
         contentConfiguration.addOverride(with: data.path.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml")
       } // end for (workbooks)
@@ -413,7 +421,7 @@ print("workbook props after: \(data.book.properties)")
 
     // encode entry
     let data: Data = try encoder.encode(entry, withRootKey: withRootKey, rootAttributes: rootAttributes, header: header)
-    try archive.addEntry(with: entryPath, type: .file, uncompressedSize: UInt32(data.count), compressionMethod: .none, provider: { (_, _) -> Data in
+    try archive.addEntry(with: entryPath, type: .file, uncompressedSize: UInt32(data.count), compressionMethod: .deflate, provider: { (_, _) -> Data in
       data
     })
   } // end writeEntry()

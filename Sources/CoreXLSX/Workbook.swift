@@ -18,8 +18,8 @@
 public struct Workbook: Codable, Equatable {
 
   public struct Properties: Codable, Equatable {
-    public let defaultThemeVersion: Int //required for Excel compatibility
-    public let dateCompatibility: Int?
+    public var defaultThemeVersion: Int? //required for Excel compatibility
+    public var dateCompatibility: Int?
   }
 
   public var properties: Properties?

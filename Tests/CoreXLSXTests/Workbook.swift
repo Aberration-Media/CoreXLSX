@@ -34,7 +34,7 @@ private let workbookNoViews =
 // swiftlint:enable line_length
 
 private let expectedWorkbook =
-  Workbook(views: nil, sheets: .init(items: [
+  Workbook(properties: Workbook.Properties(), views: nil, sheets: .init(items: [
     .init(
       name: "Summary",
       id: "1",
