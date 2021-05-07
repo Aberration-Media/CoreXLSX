@@ -91,6 +91,9 @@ let columnCRichStrings = worksheet.cells(atColumns: [ColumnReference("C")!])
   .compactMap { $0.richStringValue(sharedStrings) }
 ```
 
+
+----
+
 ### Styles
 
 Since version 0.5.0 you can parse style information from the archive with the
@@ -106,6 +109,10 @@ Here's a short example that fetches a list of fonts used:
 let styles = try file.parseStyles()
 let fonts = styles.fonts?.items.compactMap { $0.name?.value }
 ```
+
+
+
+----
 
 ## Reporting compatibility issues
 
@@ -124,6 +131,9 @@ If the whole file can't be attached, try passing a sufficiently large value
 description of thrown errors. Please also attach the full debug description if
 possible when reporting issues.
 
+
+----
+
 ## How does it work?
 
 Since every XLSX file is a zip archive of XML files, `CoreXLSX` uses
@@ -132,6 +142,8 @@ Since every XLSX file is a zip archive of XML files, `CoreXLSX` uses
 [`ZIPFoundation`](https://www.github.com/weichsel/ZIPFoundation) is used for
 in-memory decompression of zip archives. A detailed description is [available
 here](https://desiatov.com/swift-codable-xlsx/).
+
+----
 
 ## Requirements
 
@@ -145,6 +157,8 @@ here](https://desiatov.com/swift-codable-xlsx/).
 
 - Ubuntu 16.04 or later
 - Swift 5.1 or later
+
+----
 
 ## Installation
 
@@ -169,6 +183,8 @@ If you're using CoreXLSX in an app built with Xcode, you can also add it as a di
 dependency [using Xcode's
 GUI](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app).
 
+----
+
 ### CocoaPods
 
 CoreXLSX is available through [CocoaPods](https://cocoapods.org) on Apple's
@@ -184,6 +200,8 @@ target '<Your Target Name>' do
   pod 'CoreXLSX', '~> 0.13.0'
 end
 ```
+
+----
 
 ### Carthage
 
@@ -208,11 +226,15 @@ github "CoreOffice/CoreXLSX" ~> 0.13.0
 Then, run the following command to build the framework:
 
 ```bash
-$ carthage update
+$ carthage update --use-xcframeworks
 ```
 
 Drag the built frameworks (including the subdependencies `XMLCoder` and
 `ZIPFoundation`) into your Xcode project.
+
+It may be required to lower the iOS deployment target for the `ZipFoundation` library to `10.0`
+
+----
 
 ## Contributing
 
@@ -222,6 +244,10 @@ If this library saved you any amount of time or money, please consider [sponsori
 the work of its maintainer](https://github.com/sponsors/MaxDesiatov). While some of the
 sponsorship tiers give you priority support or even consulting time, any amount is
 appreciated and helps in maintaining the project.
+
+
+
+----
 
 ### Development Workflow
 
@@ -243,6 +269,9 @@ sure it builds on other platforms.
 If you prefer not to work with Xcode, the project fully supports SwiftPM and the
 usual workflow with `swift build` and `swift test` should work, otherwise please
 [report this as a bug](https://github.com/CoreOffice/CoreXLSX/issues/new).
+
+
+----
 
 ### Coding Style
 
@@ -271,6 +300,10 @@ SwiftFormat and SwiftLint also run on CI for every PR and thus a CI build can
 fail with inconsistent formatting or style. We require CI builds to pass for all
 PRs before merging.
 
+
+
+----
+
 ### Code of Conduct
 
 This project adheres to the [Contributor Covenant Code of
@@ -278,9 +311,19 @@ Conduct](https://github.com/CoreOffice/CoreXLSX/blob/main/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report
 unacceptable behavior to conduct@coreoffice.org.
 
+
+
+
+----
+
 ## Maintainers
 
 [Max Desiatov](https://desiatov.com), [Matvii Hodovaniuk](https://matvii.hodovani.uk).
+
+
+
+
+----
 
 ## License
 

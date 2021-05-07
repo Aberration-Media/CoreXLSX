@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,6 +23,22 @@
 		9554BE5824B731FA00544501 /* ContentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5724B731FA00544501 /* ContentTypes.swift */; };
 		9554BE5A24B736E200544501 /* Worksheet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5924B736E200544501 /* Worksheet+Extension.swift */; };
 		9554BE5C24B73A2300544501 /* SharedStrings+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5B24B73A2300544501 /* SharedStrings+Extension.swift */; };
+		9589E902264507F500ECE51B /* XMLCoder.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; };
+		9589E903264507F500ECE51B /* XMLCoder.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9589E904264507F500ECE51B /* ZIPFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; };
+		9589E905264507F500ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9589E9072645080200ECE51B /* XMLCoder.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; };
+		9589E9082645080200ECE51B /* XMLCoder.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9589E9092645080200ECE51B /* ZIPFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; };
+		9589E90A2645080200ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9589E90C2645080D00ECE51B /* XMLCoder.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; };
+		9589E90D2645080D00ECE51B /* XMLCoder.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9589E90E2645080D00ECE51B /* ZIPFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; };
+		9589E90F2645080D00ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9589E9112645081700ECE51B /* XMLCoder.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; };
+		9589E9122645081700ECE51B /* XMLCoder.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9589E9132645081700ECE51B /* ZIPFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; };
+		9589E9142645081700ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		958CF5C424D11176009770D7 /* BoolConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C324D11176009770D7 /* BoolConverter.swift */; };
 		958CF5C624D265CC009770D7 /* XLSXDocumentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C524D265CC009770D7 /* XLSXDocumentDelegate.swift */; };
 		958CF5C824D2690E009770D7 /* SingleValueElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C724D2690E009770D7 /* SingleValueElement.swift */; };
@@ -83,8 +99,6 @@
 		95EA09F324BDD416001C125E /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BECAF124BD56440051D2AA /* Dictionary+Extension.swift */; };
 		95EA09F424BDD416001C125E /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BECAF124BD56440051D2AA /* Dictionary+Extension.swift */; };
 		D12211DC227B555600888BCB /* Formula.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12211DB227B555600888BCB /* Formula.swift */; };
-		D15021C521A1C31800BFA4FC /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15021C321A1C31800BFA4FC /* ZIPFoundation.framework */; };
-		D15021C621A1C31800BFA4FC /* XMLCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15021C421A1C31800BFA4FC /* XMLCoder.framework */; };
 		D15021C721A1C33E00BFA4FC /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15021C321A1C31800BFA4FC /* ZIPFoundation.framework */; };
 		D15021C821A1C33E00BFA4FC /* XMLCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15021C421A1C31800BFA4FC /* XMLCoder.framework */; };
 		D15021CA21A1C3DF00BFA4FC /* XMLCoder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D15021C421A1C31800BFA4FC /* XMLCoder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -94,17 +108,11 @@
 		D15021E121A1CB0500BFA4FC /* XLSXFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* XLSXFile.swift */; };
 		D15021E221A1CB0500BFA4FC /* Relationships.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Relationships.swift */; };
 		D15021E321A1CB0500BFA4FC /* Worksheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Worksheet.swift */; };
-		D15021E621A1CB5000BFA4FC /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15021E421A1CB5000BFA4FC /* ZIPFoundation.framework */; };
-		D15021E721A1CB5000BFA4FC /* XMLCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15021E521A1CB5000BFA4FC /* XMLCoder.framework */; };
-		D15021F921A1D1A500BFA4FC /* XMLCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15021F721A1D1A500BFA4FC /* XMLCoder.framework */; };
-		D15021FA21A1D1A500BFA4FC /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15021F821A1D1A500BFA4FC /* ZIPFoundation.framework */; };
 		D15021FB21A1D1DB00BFA4FC /* CellReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* CellReference.swift */; };
 		D15021FC21A1D1DB00BFA4FC /* ColumnReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ColumnReference.swift */; };
 		D15021FD21A1D1DB00BFA4FC /* XLSXFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* XLSXFile.swift */; };
 		D15021FE21A1D1DB00BFA4FC /* Relationships.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Relationships.swift */; };
 		D15021FF21A1D1DB00BFA4FC /* Worksheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Worksheet.swift */; };
-		D150220F21A1D95400BFA4FC /* XMLCoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D150220D21A1D95400BFA4FC /* XMLCoder.framework */; };
-		D150221021A1D95400BFA4FC /* ZIPFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D150220E21A1D95400BFA4FC /* ZIPFoundation.framework */; };
 		D150221121A1D97E00BFA4FC /* CellReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* CellReference.swift */; };
 		D150221221A1D97E00BFA4FC /* ColumnReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ColumnReference.swift */; };
 		D150221321A1D97E00BFA4FC /* XLSXFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* XLSXFile.swift */; };
@@ -166,6 +174,54 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		9589E906264507F500ECE51B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9589E905264507F500ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */,
+				9589E903264507F500ECE51B /* XMLCoder.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9589E90B2645080200ECE51B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9589E90A2645080200ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */,
+				9589E9082645080200ECE51B /* XMLCoder.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9589E9102645080D00ECE51B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9589E90F2645080D00ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */,
+				9589E90D2645080D00ECE51B /* XMLCoder.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9589E9152645081700ECE51B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9589E9142645081700ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */,
+				9589E9122645081700ECE51B /* XMLCoder.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D15021C921A1C3BB00BFA4FC /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -196,6 +252,8 @@
 		9554BE5724B731FA00544501 /* ContentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypes.swift; sourceTree = "<group>"; };
 		9554BE5924B736E200544501 /* Worksheet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Worksheet+Extension.swift"; sourceTree = "<group>"; };
 		9554BE5B24B73A2300544501 /* SharedStrings+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SharedStrings+Extension.swift"; sourceTree = "<group>"; };
+		9589E900264507F500ECE51B /* XMLCoder.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = XMLCoder.xcframework; path = Carthage/Build/XMLCoder.xcframework; sourceTree = "<group>"; };
+		9589E901264507F500ECE51B /* ZIPFoundation.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ZIPFoundation.xcframework; path = Carthage/Build/ZIPFoundation.xcframework; sourceTree = "<group>"; };
 		958CF5C324D11176009770D7 /* BoolConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolConverter.swift; sourceTree = "<group>"; };
 		958CF5C524D265CC009770D7 /* XLSXDocumentDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLSXDocumentDelegate.swift; sourceTree = "<group>"; };
 		958CF5C724D2690E009770D7 /* SingleValueElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleValueElement.swift; sourceTree = "<group>"; };
@@ -252,8 +310,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D15021E621A1CB5000BFA4FC /* ZIPFoundation.framework in Frameworks */,
-				D15021E721A1CB5000BFA4FC /* XMLCoder.framework in Frameworks */,
+				9589E9092645080200ECE51B /* ZIPFoundation.xcframework in Frameworks */,
+				9589E9072645080200ECE51B /* XMLCoder.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,8 +319,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D15021F921A1D1A500BFA4FC /* XMLCoder.framework in Frameworks */,
-				D15021FA21A1D1A500BFA4FC /* ZIPFoundation.framework in Frameworks */,
+				9589E904264507F500ECE51B /* ZIPFoundation.xcframework in Frameworks */,
+				9589E902264507F500ECE51B /* XMLCoder.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,8 +328,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D150220F21A1D95400BFA4FC /* XMLCoder.framework in Frameworks */,
-				D150221021A1D95400BFA4FC /* ZIPFoundation.framework in Frameworks */,
+				9589E9132645081700ECE51B /* ZIPFoundation.xcframework in Frameworks */,
+				9589E9112645081700ECE51B /* XMLCoder.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,8 +337,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				D15021C521A1C31800BFA4FC /* ZIPFoundation.framework in Frameworks */,
-				D15021C621A1C31800BFA4FC /* XMLCoder.framework in Frameworks */,
+				9589E90E2645080D00ECE51B /* ZIPFoundation.xcframework in Frameworks */,
+				9589E90C2645080D00ECE51B /* XMLCoder.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +367,8 @@
 		D15021C221A1C31800BFA4FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9589E900264507F500ECE51B /* XMLCoder.xcframework */,
+				9589E901264507F500ECE51B /* ZIPFoundation.xcframework */,
 				D15BA1B921A1EC6A00CB3C7B /* iOS */,
 				D15BA1BA21A1EC7C00CB3C7B /* watchOS */,
 				D15021E921A1CB7700BFA4FC /* macOS */,
@@ -509,6 +569,7 @@
 				D1B4F8DE221C05CF00C53C42 /* ShellScript */,
 				OBJ_61 /* Sources */,
 				OBJ_67 /* Frameworks */,
+				9589E9102645080D00ECE51B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -545,6 +606,7 @@
 				D15021CD21A1CA7D00BFA4FC /* Sources */,
 				D15021CE21A1CA7D00BFA4FC /* Frameworks */,
 				D15021CF21A1CA7D00BFA4FC /* Resources */,
+				9589E90B2645080200ECE51B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -563,6 +625,7 @@
 				D15021EB21A1D11900BFA4FC /* Sources */,
 				D15021EC21A1D11900BFA4FC /* Frameworks */,
 				D15021ED21A1D11900BFA4FC /* Resources */,
+				9589E906264507F500ECE51B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -581,6 +644,7 @@
 				D150220121A1D8DC00BFA4FC /* Sources */,
 				D150220221A1D8DC00BFA4FC /* Frameworks */,
 				D150220321A1D8DC00BFA4FC /* Resources */,
+				9589E9152645081700ECE51B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1013,6 +1077,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1064,7 +1129,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = CoreXLSX.xcodeproj/CoreXLSXiOS_Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1141,7 +1206,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = CoreXLSX.xcodeproj/CoreXLSXiOS_Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1319,6 +1384,7 @@
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1346,6 +1412,7 @@
 		OBJ_4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
