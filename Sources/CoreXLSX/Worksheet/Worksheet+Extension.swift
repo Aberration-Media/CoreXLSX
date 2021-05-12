@@ -214,6 +214,12 @@ public extension Worksheet {
 
   } //end insertRow()
 
+  /**
+   Delete rows from the worksheet
+   
+    - parameters:
+      - range: The Int range of rows to delete from the spread sheet
+   */
   mutating func deleteRows(in range: Range<Int>) {
     //bounds check range
     var boundedRange: Range<Int> = range
@@ -233,6 +239,100 @@ public extension Worksheet {
 
     } //end if (found rows)
   } //end deleteRows()
+
+  /**
+   Delete columns from the worksheet
+   
+    - parameters:
+      - range: The Int range of columns to delete from the spread sheet
+   */
+  mutating func deleteColumns(in range: Range<Int>) {
+
+    //bounds check range
+    var boundedRange: Range<Int> = range
+    if boundedRange.lowerBound <= 0 {
+      boundedRange = 1..<range.count
+    }
+
+    //found columns data
+    if let columns: [Column] = self.columns?.items { //}.filter({ boundedRange.contains(Int($0.min)) || boundedRange.contains(Int($0.max)) }) {
+
+      //process columns
+      for (index, column) in columns.enumerated().reversed() {
+
+        //split column (column covers delete range)
+        if column.min < range.lowerBound && column.max >= range.upperBound {
+          //create new column
+          let newColumn = Column(min: UInt32(range.upperBound), max: column.max, width: column.width, style: column.style, customWidth: column.customWidth)
+          self.columns?.items.insert(newColumn, at: index+1)
+
+          //update existing column bounds
+          self.columns?.items[index].max = UInt32(range.lowerBound)
+        }
+
+        //delete column (column exists entirely inside delete range)
+        else if column.min >= range.lowerBound && column.max < range.upperBound {
+          self.columns?.items.remove(at: index)
+        }
+
+        //update min range
+        else if column.min < range.lowerBound {
+          if boundedRange.contains(Int(column.max)) {
+            self.columns?.items[index].max = UInt32(range.lowerBound - 1)
+          }
+        }
+
+        //update max range
+        else if column.max >= range.lowerBound {
+          if boundedRange.contains(Int(column.min)) {
+            self.columns?.items[index].min = UInt32(range.upperBound)
+          }
+        }
+      } //end for (columns)
+
+    } //end if (found columns)
+
+    //found rows
+    if let rows: [UInt: Row] = self.data?.rowsByReference {
+
+      //delete rows
+      for (key, row) in rows {
+        var offset: Int = 0
+
+        //remove cells from row (assumes 'cells' is an oredered list)
+        var filteredCells: [ColumnReference: Cell] = [:]
+        for var cell in row.cells {
+
+          //get column index for cell
+          let columnIndex: ColumnReference = cell.reference.column
+
+          //update cell column index
+          if let newIndex = ColumnReference(cell.reference.column.intValue + offset) {
+            cell.reference.column = newIndex
+          }
+
+          //found cell to delete
+          if boundedRange.contains(columnIndex.intValue) {
+            offset += 1
+          }
+          //keep cell
+          else {
+            filteredCells[columnIndex] = cell
+          }
+
+        } //end for (cells in row)
+
+        //update cell references
+        self.data?.rowsByReference[key]?.cellsByReference = filteredCells
+
+      } //end for (rows)
+
+      //shift remaining rows up
+      try? self.shiftRows(in: boundedRange.upperBound..<self.numberOfRows, by: -boundedRange.count)
+
+    } //end if (found rows)
+
+  } //end deleteColumns()
 
   /**
     Move rows to a new row reference position

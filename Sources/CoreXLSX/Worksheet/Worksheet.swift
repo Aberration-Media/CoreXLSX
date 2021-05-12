@@ -120,7 +120,7 @@ public struct Worksheet: Codable {
   }
 
   public let formatProperties: FormatProperties?
-  public let columns: Columns?
+  public var columns: Columns?
 
   @available(*, deprecated, renamed: "columns")
   public var cols: Cols? {
@@ -194,7 +194,7 @@ public struct Pane: Codable {
 public typealias Cols = Columns
 
 public struct Columns: Codable, Equatable {
-  public let items: [Column]
+  public var items: [Column]
 
   enum CodingKeys: String, CodingKey {
     case items = "col"
@@ -209,11 +209,11 @@ public typealias Col = Column
 /// docs](https://docs.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.column?view=openxml-2.8.1)
 public struct Column: Codable, Equatable {
   // swiftlint:enable line_length
-  public let min: UInt32
-  public let max: UInt32
-  public let width: Double
-  public let style: UInt32?
-  public let customWidth: Bool?
+  public var min: UInt32
+  public var max: UInt32
+  public var width: Double
+  public var style: UInt32?
+  public var customWidth: Bool?
 }
 
 public struct Row: Codable {

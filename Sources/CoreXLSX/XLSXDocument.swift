@@ -147,13 +147,12 @@ public class XLSXDocument {
   /// list of work sheets in document mapped to their corresponding path
   public lazy var worksheetsMap: [(path: Path, sheet: Worksheet)] = {
     var sheets: [(path: Path, sheet: Worksheet)] = []
-
+    
     // file exists
     if let safeFile = file {
       // get worksheet paths
       do {
         let paths = try safeFile.parseWorksheetPaths()
-
         // retrieve work sheets
         for path in paths {
           do {
@@ -283,7 +282,7 @@ public class XLSXDocument {
 
   public init(filepath: String, bufferSize: UInt32 = 10 * 1024 * 1024, errorContextLength: UInt = 0) {
     // create file
-    file = XLSXFile(filepath: filepath, bufferSize: bufferSize, errorContextLength: errorContextLength)
+    self.file = XLSXFile(filepath: filepath, bufferSize: bufferSize, errorContextLength: errorContextLength)
   } // end constructor()
 
   #if swift(>=5.0)
@@ -322,20 +321,16 @@ public class XLSXDocument {
       // create content type file
       var contentConfiguration: ContentTypes = .standard
 
+      //save any unsupported files (relationships that do not correspond to a Swift data object)
+      let workbookRelations = self.saveUnsupportedFiles(from: self.relationships, in: archive)
+    
       // write root relationships
-      try writeEntry(relationships, Self.rootRelationshipsPath.value, in: archive, rootAttributes: Self.relationshipsAttributes)
+      try writeEntry(workbookRelations, Self.rootRelationshipsPath.value, in: archive, rootAttributes: Self.relationshipsAttributes)
 
       // TODO: docProps are not required for a valid XLSX document - these should be optionally added to the document
       // write support files
       try writeSupportFile(Self.appXML, path: Self.appPath.value, in: archive)
       try writeSupportFile(Self.coreXML, path: Self.corePath.value, in: archive)
-
-      // write styles
-      if let safeStyles = styles {
-        try writeEntry(safeStyles, Self.stylesPath.value, in: archive, withRootKey: "styleSheet", rootAttributes: Self.stylesAttributes)
-        // append styles to content types
-        contentConfiguration.addOverride(with: Self.stylesPath.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml")
-      }
 
       // write shared strings
       try writeEntry(self.sharedStrings, Self.sharedStringsPath.value, in: archive, withRootKey: "sst", rootAttributes: Self.baseAttributes)
@@ -358,10 +353,18 @@ public class XLSXDocument {
         contentConfiguration.addOverride(with: data.path.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml")
       } // end for (workbooks)
 
+      // write styles
+      if let safeStyles = styles {
+        try self.writeEntry(safeStyles, Self.stylesPath.value, in: archive, withRootKey: "styleSheet", rootAttributes: Self.stylesAttributes)
+        // append styles to content types
+        contentConfiguration.addOverride(with: Self.stylesPath.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml")
+      }
+
       // save work sheets
       for data in worksheetsMap {
+
         // write worksheet
-        try writeEntry(data.sheet, data.path.value, in: archive, withRootKey: "worksheet")
+        try self.writeEntry(data.sheet, data.path.value, in: archive, withRootKey: "worksheet")
         // append worksheet path to content type configuration
         contentConfiguration.addOverride(with: data.path.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml")
       } // end for (worksheets)
@@ -370,19 +373,26 @@ public class XLSXDocument {
       for data in documentRelationships {
         // get data components
         let documentPath: Path = data.path
-        let relationships: Relationships = data.relations
+//        let relationships: Relationships = data.relations
+
+        //save any unsupported files (relationships that do not correspond to a Swift data object)
+        let relationships: Relationships = self.saveUnsupportedFiles(from: data.relations, in: archive)
 
         // valid document path
         if let documentFileName: String = documentPath.lastPathComponent, !documentFileName.isEmpty {
-          // create relationship path
-          let relationshipsPath: Path = Self.documentRelationshipsPath.path(byAppending: "\(documentFileName).rels")
-          // write relationships
-          try writeEntry(relationships, relationshipsPath.value, in: archive, rootAttributes: Self.relationshipsAttributes)
+
+            // create relationship path
+            let relationshipsPath: Path = Self.documentRelationshipsPath.path(byAppending: "\(documentFileName).rels")
+
+            // write relationships
+            try self.writeEntry(relationships, relationshipsPath.value, in: archive, rootAttributes: Self.relationshipsAttributes)
+
         } // end if (valid document path)
       } // end for (relationships)
 
       // write content types xml file
-      try writeEntry(contentConfiguration, "[Content_Types].xml", in: archive, withRootKey: "Types", rootAttributes: Self.contentTypesAttributes)
+      try self.writeEntry(contentConfiguration, "[Content_Types].xml", in: archive, withRootKey: "Types", rootAttributes: Self.contentTypesAttributes)
+
     } // end if (created archive)
 
     // could not create archive
@@ -390,6 +400,27 @@ public class XLSXDocument {
       throw CoreXLSXWriteError.couldNotCreateArchive
     }
   } // end saveWorkbooks()
+
+    //TODO: copy files instead of removing them
+  private func saveUnsupportedFiles(from relationships: Relationships, in archive: Archive) -> Relationships {
+
+    var modified = relationships
+    modified.items.removeAll {
+      relationship in
+      //print("found: \(relationship) - type: \(relationship.type == .theme)")
+        return relationship.type == .theme
+    }
+//    for relationship in relationships.items {
+//        switch relationship.type {
+//            case .theme:
+//                //archive.addEntry(with: relationship.id, fileURL: <#T##URL#>)
+//            default:
+//                {}() //do nothing
+//        }
+//    }
+    return modified
+
+  } //end saveUnsupportedFiles()
 
   // MARK: - File Functions
 
@@ -420,9 +451,16 @@ public class XLSXDocument {
     }
 
     // encode entry
-    let data: Data = try encoder.encode(entry, withRootKey: withRootKey, rootAttributes: rootAttributes, header: header)
-    try archive.addEntry(with: entryPath, type: .file, uncompressedSize: UInt32(data.count), compressionMethod: .deflate, provider: { (_, _) -> Data in
-      data
+    let entryData: Data = try encoder.encode(entry, withRootKey: withRootKey, rootAttributes: rootAttributes, header: header)
+    let size = entryData.count
+    try archive.addEntry(with: entryPath, type: .file, uncompressedSize: UInt32(size), compressionMethod: .deflate, provider: {
+      (position, bufferSize) -> Data in
+
+      //copy data chunk
+      let upperBound = Swift.min(size, position + bufferSize)
+      let range = Range(uncheckedBounds: (lower: position, upper: upperBound))
+      return entryData.subdata(in: range)
     })
+
   } // end writeEntry()
 } // end struct XLSXDocument

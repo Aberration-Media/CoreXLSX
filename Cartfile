@@ -1,2 +1,2 @@
-github "weichsel/ZIPFoundation" ~> 0.9.11
-github "MaxDesiatov/XMLCoder" ~> 0.12
+github "weichsel/ZIPFoundation" ~> 0.9.12
+github "MaxDesiatov/XMLCoder" ~> 0.12.0

@@ -24,21 +24,13 @@
 		9554BE5A24B736E200544501 /* Worksheet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5924B736E200544501 /* Worksheet+Extension.swift */; };
 		9554BE5C24B73A2300544501 /* SharedStrings+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9554BE5B24B73A2300544501 /* SharedStrings+Extension.swift */; };
 		9589E902264507F500ECE51B /* XMLCoder.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; };
-		9589E903264507F500ECE51B /* XMLCoder.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9589E904264507F500ECE51B /* ZIPFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; };
-		9589E905264507F500ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9589E9072645080200ECE51B /* XMLCoder.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; };
-		9589E9082645080200ECE51B /* XMLCoder.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9589E9092645080200ECE51B /* ZIPFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; };
-		9589E90A2645080200ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9589E90C2645080D00ECE51B /* XMLCoder.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; };
-		9589E90D2645080D00ECE51B /* XMLCoder.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9589E90E2645080D00ECE51B /* ZIPFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; };
-		9589E90F2645080D00ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9589E9112645081700ECE51B /* XMLCoder.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; };
-		9589E9122645081700ECE51B /* XMLCoder.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E900264507F500ECE51B /* XMLCoder.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9589E9132645081700ECE51B /* ZIPFoundation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; };
-		9589E9142645081700ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9589E901264507F500ECE51B /* ZIPFoundation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		958CF5C424D11176009770D7 /* BoolConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C324D11176009770D7 /* BoolConverter.swift */; };
 		958CF5C624D265CC009770D7 /* XLSXDocumentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C524D265CC009770D7 /* XLSXDocumentDelegate.swift */; };
 		958CF5C824D2690E009770D7 /* SingleValueElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CF5C724D2690E009770D7 /* SingleValueElement.swift */; };
@@ -174,54 +166,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9589E906264507F500ECE51B /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9589E905264507F500ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */,
-				9589E903264507F500ECE51B /* XMLCoder.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9589E90B2645080200ECE51B /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9589E90A2645080200ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */,
-				9589E9082645080200ECE51B /* XMLCoder.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9589E9102645080D00ECE51B /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9589E90F2645080D00ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */,
-				9589E90D2645080D00ECE51B /* XMLCoder.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9589E9152645081700ECE51B /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9589E9142645081700ECE51B /* ZIPFoundation.xcframework in Embed Frameworks */,
-				9589E9122645081700ECE51B /* XMLCoder.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D15021C921A1C3BB00BFA4FC /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -569,7 +513,6 @@
 				D1B4F8DE221C05CF00C53C42 /* ShellScript */,
 				OBJ_61 /* Sources */,
 				OBJ_67 /* Frameworks */,
-				9589E9102645080D00ECE51B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -606,7 +549,6 @@
 				D15021CD21A1CA7D00BFA4FC /* Sources */,
 				D15021CE21A1CA7D00BFA4FC /* Frameworks */,
 				D15021CF21A1CA7D00BFA4FC /* Resources */,
-				9589E90B2645080200ECE51B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -625,7 +567,6 @@
 				D15021EB21A1D11900BFA4FC /* Sources */,
 				D15021EC21A1D11900BFA4FC /* Frameworks */,
 				D15021ED21A1D11900BFA4FC /* Resources */,
-				9589E906264507F500ECE51B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -644,7 +585,6 @@
 				D150220121A1D8DC00BFA4FC /* Sources */,
 				D150220221A1D8DC00BFA4FC /* Frameworks */,
 				D150220321A1D8DC00BFA4FC /* Resources */,
-				9589E9152645081700ECE51B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1129,7 +1069,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = CoreXLSX.xcodeproj/CoreXLSXiOS_Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1206,7 +1146,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = CoreXLSX.xcodeproj/CoreXLSXiOS_Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

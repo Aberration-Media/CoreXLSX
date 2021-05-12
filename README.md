@@ -232,7 +232,11 @@ $ carthage update --use-xcframeworks
 Drag the built frameworks (including the subdependencies `XMLCoder` and
 `ZIPFoundation`) into your Xcode project.
 
-It may be required to lower the iOS deployment target for the `ZipFoundation` library to `10.0`
+It may be required to lower the `iOS deployment target` for the `ZipFoundation` library to `10.0` in `Build Settings -> Deployment` 
+Rebuilding if required
+```bash
+$ carthage build --use-xcframeworks ZipFoundation
+```
 
 ----
 
