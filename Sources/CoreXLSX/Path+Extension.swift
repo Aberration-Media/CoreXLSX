@@ -18,6 +18,32 @@ extension Path: Equatable {
     return nil
   }
 
+  /// the directory path for the current path item
+  public var directoryPath: String {
+
+    //default to root path
+    var path = "/"
+
+    //find directory path
+    if self.components.count > 1 {
+
+      //get directory path
+      path = self.components[0..<(self.components.count - 1)].joined(separator: "/")
+
+      //add directory separator
+      if path.last != "/" {
+        path += "/"
+      }
+    }
+
+    return path
+  }
+
+  ///path as a relative locator (exlcudes opening '/' character)
+  public var relativePath: String {
+    return self.isRoot ? self.components.joined(separator: "/") : self.value
+  }
+
   // MARK: - Configuration Functions
 
   public init(rootPath: String) {

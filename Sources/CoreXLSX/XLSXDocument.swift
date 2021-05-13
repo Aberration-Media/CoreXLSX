@@ -285,6 +285,9 @@ public class XLSXDocument {
     return result
   }()
 
+  ///compression method for creating new archives
+  private let compressionMode: CompressionMethod = .deflate
+
   // MARK: - Configuration Functions
 
   public init() {
@@ -337,19 +340,20 @@ public class XLSXDocument {
     // https://github.com/mvdnes/zip-rs/issues/72
     // create archive
     if let archive = Archive(url: archiveURL, accessMode: .create) {
+
       // create content type file
       var contentConfiguration: ContentTypes = .standard
 
       // write root relationships
-      try writeEntry(self.relationships, Self.rootRelationshipsPath.value, in: archive, rootAttributes: Self.relationshipsAttributes)
+      try writeEntry(self.relationships, Self.rootRelationshipsPath, in: archive, rootAttributes: Self.relationshipsAttributes)
 
       // TODO: docProps are not required for a valid XLSX document - these should be optionally added to the document
       // write support files
-      try writeSupportFile(Self.appXML, path: Self.appPath.value, in: archive)
-      try writeSupportFile(Self.coreXML, path: Self.corePath.value, in: archive)
+      try writeSupportFile(Self.appXML, path: Self.appPath, in: archive)
+      try writeSupportFile(Self.coreXML, path: Self.corePath, in: archive)
 
       // write shared strings
-      try writeEntry(self.sharedStrings, Self.sharedStringsPath.value, in: archive, withRootKey: "sst", rootAttributes: Self.baseAttributes)
+      try writeEntry(self.sharedStrings, Self.sharedStringsPath, in: archive, withRootKey: "sst", rootAttributes: Self.baseAttributes)
       // append styles to content types
       contentConfiguration.addOverride(with: Self.sharedStringsPath.value, type: .sharedStrings)
 
@@ -364,7 +368,7 @@ public class XLSXDocument {
         }
 
         // write workbook
-        try writeEntry(data.book, data.path.value, in: archive, withRootKey: "workbook")
+        try writeEntry(data.book, data.path, in: archive, withRootKey: "workbook")
 
         // append workbook path to content type configuration
         contentConfiguration.addOverride(with: data.path.value, type: .workbook)
@@ -373,7 +377,7 @@ public class XLSXDocument {
 
       // write styles
       if let safeStyles = styles {
-        try self.writeEntry(safeStyles, Self.stylesPath.value, in: archive, withRootKey: "styleSheet", rootAttributes: Self.stylesAttributes)
+        try self.writeEntry(safeStyles, Self.stylesPath, in: archive, withRootKey: "styleSheet", rootAttributes: Self.stylesAttributes)
         // append styles to content types
         contentConfiguration.addOverride(with: Self.stylesPath.value, type: .styles)
       }
@@ -382,7 +386,7 @@ public class XLSXDocument {
       for data in worksheetsMap {
 
         // write worksheet
-        try self.writeEntry(data.sheet, data.path.value, in: archive, withRootKey: "worksheet")
+        try self.writeEntry(data.sheet, data.path, in: archive, withRootKey: "worksheet")
         // append worksheet path to content type configuration
         contentConfiguration.addOverride(with: data.path.value, type: .worksheet)
 
@@ -402,7 +406,7 @@ public class XLSXDocument {
           let relationshipsPath: Path = Self.documentRelationshipsPath.path(byAppending: "\(documentFileName).rels")
 
           // write relationships
-          try self.writeEntry(relationships, relationshipsPath.value, in: archive, rootAttributes: Self.relationshipsAttributes)
+          try self.writeEntry(relationships, relationshipsPath, in: archive, rootAttributes: Self.relationshipsAttributes)
 
         } // end if (valid document path)
 
@@ -412,7 +416,7 @@ public class XLSXDocument {
       } // end for (relationships)
 
       // write content types xml file
-      try self.writeEntry(contentConfiguration, "[Content_Types].xml", in: archive, withRootKey: "Types", rootAttributes: Self.contentTypesAttributes)
+      try self.writeEntry(contentConfiguration, Path("[Content_Types].xml"), in: archive, withRootKey: "Types", rootAttributes: Self.contentTypesAttributes)
 
       //save any unsupported/missing files (relationships that do not correspond to a Swift data object)
       try self.saveUnsupportedFiles(from: self.relationships, to: archive, configuration: &contentConfiguration)
@@ -471,10 +475,17 @@ public class XLSXDocument {
 
   // MARK: - File Functions
 
-  private func writeSupportFile(_ contents: String, path: String, in archive: Archive) throws {
+  private func writeSupportFile(_ contents: String, path: Path, in archive: Archive) throws {
+    let entityPath: String = path.relativePath
+    
+    // check if entry already exists
+    if archive[entityPath] != nil {
+      throw CoreXLSXWriteError.archiveEntryAlreadyExists
+    }
+
     if let data: Data = contents.data(using: .utf8) {
       // add file to archive
-      try archive.addEntry(with: path, type: .file, uncompressedSize: UInt32(data.count), compressionMethod: .deflate, provider: { (_, _) -> Data in
+      try archive.addEntry(with: entityPath, type: .file, uncompressedSize: UInt32(data.count), compressionMethod: self.compressionMode, provider: { (_, _) -> Data in
         data
       })
     } // end if (got data)
@@ -482,15 +493,14 @@ public class XLSXDocument {
 
   private func writeEntry<T: Encodable>(
     _ entry: T,
-    _ pathString: String,
+    _ path: Path,
     in archive: Archive,
     withRootKey: String? = nil,
     rootAttributes: [String: String]? = XLSXDocument.documentAttributes,
     header: XMLHeader? = XLSXDocument.header
   ) throws {
-    // get entry path
-    let path = Path(pathString)
-    let entryPath = path.isRoot ? path.components.joined(separator: "/") : pathString
+    // get entry path (remove root separator)
+    let entryPath = path.relativePath
 
     // check if entry already exists
     if archive[entryPath] != nil {
@@ -500,7 +510,7 @@ public class XLSXDocument {
     // encode entry
     let entryData: Data = try encoder.encode(entry, withRootKey: withRootKey, rootAttributes: rootAttributes, header: header)
     let size = entryData.count
-    try archive.addEntry(with: entryPath, type: .file, uncompressedSize: UInt32(size), compressionMethod: .deflate, provider: {
+    try archive.addEntry(with: entryPath, type: .file, uncompressedSize: UInt32(size), compressionMethod: self.compressionMode, provider: {
       (position, bufferSize) -> Data in
 
       //copy data chunk
@@ -508,6 +518,17 @@ public class XLSXDocument {
       let range = Range(uncheckedBounds: (lower: position, upper: upperBound))
       return entryData.subdata(in: range)
     })
+
+//    //get directory path
+//    let dirPath = path.directoryPath
+//    //check if entry for directory exists (ignore root path)
+//    if archive[dirPath] == nil, dirPath != "/" {
+//print("creating directory: \(dirPath)")
+//      //create directory entry
+//      try archive.addEntry(with: dirPath, type: .directory, uncompressedSize: 0, compressionMethod: .none, provider: { (_, _) -> Data in
+//        return Data()
+//      })
+//    }
 
   } // end writeEntry()
 

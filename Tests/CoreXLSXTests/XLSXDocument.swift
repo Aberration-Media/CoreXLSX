@@ -52,8 +52,8 @@ public class XLSXDocumentTest: XCTestCase, XLSXDocumentDelegate {
 
   func testSaveExistingDocument() {
     // open test document
-    //let fileName: String = "jewelershealthcare.com-census.1.xlsx"
-    let fileName: String = "categories.xlsx"
+    let fileName: String = "jewelershealthcare.com-census.1.xlsx"
+    //let fileName: String = "categories.xlsx"
     guard let file =
       XLSXFile(filepath: "\(currentWorkingPath)/\(fileName)") else {
       XCTAssert(false, "failed to open the file")
@@ -65,6 +65,22 @@ public class XLSXDocumentTest: XCTestCase, XLSXDocumentDelegate {
     document.documentDelegate = self
 
     do {
+
+//      for (index, book) in document.workbooks.enumerated() {
+//          print("\n\nfound workbook\(index) - \(book)")
+//
+//        for (sheetID, sheet) in document.worksheetsMap {
+//            print("This worksheet:\n\t - sheetID: (\(sheetID))\n\t - sheet: \(sheet)")
+//
+////          let worksheet = try document.parseWorksheet(at: path)
+////          for row in worksheet.data?.rows ?? [] {
+////            for c in row.cells {
+////              print(c)
+////            }
+////          }
+//        }
+//      } //end for()
+
       let filePath: URL = outputFolderURL.appendingPathComponent(fileName)
       print("output path: \(filePath)")
       try document.save(to: filePath.path, overwrite: true)
@@ -95,7 +111,9 @@ public class XLSXDocumentTest: XCTestCase, XLSXDocumentDelegate {
       worksheet.deleteRows(in: 0..<3)
       worksheet.updateRowValues(at: 4, with: ["replace RICH"], sharedStrings: &sharedStrings)
       worksheet.updateColumnValues(at: 5, row: 2, with: ["test1", "test2", "test3", "test4", "test5", "test5"], sharedStrings: &sharedStrings)
-    }
+      worksheet.deleteColumns(in: 0..<1)
+
+    } //end modify closure
 
 //    //debug cells
 //    for worksheet in document.worksheets {
