@@ -146,13 +146,6 @@ public class XLSXFile {
       throw CoreXLSXWriteError.archiveEntryAlreadyExists
     }
 
-//    let progressHandler = Progress(totalUnitCount: Int64(entry.uncompressedSize))
-//    //let observer = self.keyValueObservingExpectation(for: progressHandler, keyPath: #keyPath(Progress.fractionCompleted), handler: handler)
-//    let observer = progressHandler.observe(\.fractionCompleted) {
-//        [unowned self] object, value in
-//
-//    }
-
     //copy data from existing archive
     let entryData = NSMutableData()
     _ = try archive.extract(entry, bufferSize: UInt32(entry.uncompressedSize), skipCRC32: false, progress: nil, consumer:  { data in
@@ -169,29 +162,6 @@ public class XLSXFile {
       let range = NSRange(location: position, length: upperBound - position)
       return entryData.subdata(with: range)
     })
-    //try destination.addEntry(with: entryPath, type: entry.type, uncompressedSize: entry.uncompressedSize, provider: <#T##(Int, Int) throws -> Data#>)
-
-//    try archive.extract(entry, consumer: { (data) in
-//        print(data.count)
-//    })
-//    let provider: ((Data) throws -> Void) = {
-//      data in
-//    }
-
-//    let handler: XCTKVOExpectation.Handler = { (_, _) -> Bool in
-//        if progress.fractionCompleted > 0.5 {
-//            progress.cancel()
-//            return true
-//        }
-//        return false
-//    }
-
-//
-//    //skipped checksum - so returned checksum should always be zero
-//    _ = try archive.extract(entry, bufferSize: 1000, skipCRC32: true, progress: progressHandler, consumer: provider)
-//    //let data: Data = try encoder.encode(entry, withRootKey: withRootKey, rootAttributes: rootAttributes, header: header)
-//
-//    try destination.addEntry(with: entryPath, type: .file, uncompressedSize: UInt32(data.count), compressionMethod: .deflate, provider: provider)
 
   } //end copyEntry()
 

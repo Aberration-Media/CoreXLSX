@@ -9,10 +9,62 @@
 import Foundation
 import XCTest
 
+import ZIPFoundation
+
 let currentWorkingPath = URL(fileURLWithPath: #file).deletingLastPathComponent().path
 
 final class CoreXLSXTests: XCTestCase {
   private let sheetPath = "xl/worksheets/sheet1.xml"
+
+  /// ouput folder URL for saved documents
+  private let outputFolderURL: URL = {
+    URL(fileURLWithPath: currentWorkingPath).deletingLastPathComponent().appendingPathComponent("XLSXTestsOutput")
+  }()
+
+  func testCopyFiles() {
+    // open test document
+    let fileName: String = "jewelershealthcare.com-census.1.xlsx"
+    guard let file = XLSXFile(filepath: "\(currentWorkingPath)/\(fileName)") else {
+      XCTAssert(false, "failed to open the file")
+      return
+    }
+
+    do {
+
+      let filePath: URL = outputFolderURL.appendingPathComponent("copy.xlsx")
+
+      //remove old file (if required)
+      try? FileManager.default.removeItem(at: filePath)
+
+      //create new archive
+      if let archive = Archive(url: filePath, accessMode: .create) {
+
+        //copy items
+        let relationShips: Relationships = try file.parseRelationships()
+        for relation in relationShips.items {
+          try file.copyEntry(at: relation.target, to: archive)
+        }
+
+        //check items
+        let iterrator = archive.makeIterator()
+        for relation in relationShips.items {
+          if !iterrator.contains(where: { $0.path == relation.target }) {
+            XCTAssert(false, "Could not find copy of relation(\(relation.target)) in: \(iterrator)")
+          }
+        } //end for()
+
+      } //end if (valid archive)
+
+      //failed to create archive
+      else {
+        XCTAssert(false, "Could not create new archive at: \(filePath)")
+      }
+
+    } catch {
+      XCTAssert(false, "Error copying files: \(error)")
+    }
+
+  } //end testCopyFiles()
 
   func testBlank() throws {
     guard let file =
