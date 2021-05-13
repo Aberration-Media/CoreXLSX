@@ -11,11 +11,29 @@ import ZIPFoundation
 
 // MARK: Errors
 
-public enum CoreXLSXWriteError: Error {
+public enum CoreXLSXWriteError: Error, CustomStringConvertible {
   case fileAlreadyExists
   case couldNotCreateArchive
   case archiveEntryAlreadyExists
-}
+  case unrecognizedContentType(path: String, type: String)
+
+  public var description: String {
+    var message: String = "CoreXLSXWriteError: "
+    switch self {
+      case .fileAlreadyExists:
+        message += "File already exists"
+      case .couldNotCreateArchive:
+        message += "Could not create archive"
+      case .archiveEntryAlreadyExists:
+        message += "Entry already exists"
+      case let .unrecognizedContentType(path, type):
+        message += "Unrecognized content type(\(type)) at path: \(path)"
+      default:
+        message += "Unknown"
+    }
+    return message
+  }
+} //end enum CoreXLSXWriteError
 
 public class XLSXDocument {
 
@@ -147,7 +165,7 @@ public class XLSXDocument {
   /// list of work sheets in document mapped to their corresponding path
   public lazy var worksheetsMap: [(path: Path, sheet: Worksheet)] = {
     var sheets: [(path: Path, sheet: Worksheet)] = []
-    
+
     // file exists
     if let safeFile = file {
       // get worksheet paths
@@ -181,6 +199,7 @@ public class XLSXDocument {
       // get relationships
       do {
         relations = try safeFile.parseRelationships()
+        print("GOT DOCUMENT RELATIONS: \(relations)")
       } catch {
         print("Error loading root relationships: \(error)")
         documentDelegate?.didReceiveError(for: self, error: error)
@@ -321,11 +340,8 @@ public class XLSXDocument {
       // create content type file
       var contentConfiguration: ContentTypes = .standard
 
-      //save any unsupported files (relationships that do not correspond to a Swift data object)
-      let workbookRelations = self.saveUnsupportedFiles(from: self.relationships, in: archive)
-    
       // write root relationships
-      try writeEntry(workbookRelations, Self.rootRelationshipsPath.value, in: archive, rootAttributes: Self.relationshipsAttributes)
+      try writeEntry(self.relationships, Self.rootRelationshipsPath.value, in: archive, rootAttributes: Self.relationshipsAttributes)
 
       // TODO: docProps are not required for a valid XLSX document - these should be optionally added to the document
       // write support files
@@ -335,10 +351,11 @@ public class XLSXDocument {
       // write shared strings
       try writeEntry(self.sharedStrings, Self.sharedStringsPath.value, in: archive, withRootKey: "sst", rootAttributes: Self.baseAttributes)
       // append styles to content types
-      contentConfiguration.addOverride(with: Self.sharedStringsPath.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml")
+      contentConfiguration.addOverride(with: Self.sharedStringsPath.value, type: .sharedStrings)
 
       // save work books
       for var data in workbooksMap {
+
         //ensure workbook properties exist with defaultThemeVersion (required for Excel compatibility)
         if data.book.properties == nil {
           data.book.properties = Workbook.Properties(defaultThemeVersion: Self.defaultThemeVersion, dateCompatibility: nil)
@@ -350,14 +367,15 @@ public class XLSXDocument {
         try writeEntry(data.book, data.path.value, in: archive, withRootKey: "workbook")
 
         // append workbook path to content type configuration
-        contentConfiguration.addOverride(with: data.path.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml")
+        contentConfiguration.addOverride(with: data.path.value, type: .workbook)
+
       } // end for (workbooks)
 
       // write styles
       if let safeStyles = styles {
         try self.writeEntry(safeStyles, Self.stylesPath.value, in: archive, withRootKey: "styleSheet", rootAttributes: Self.stylesAttributes)
         // append styles to content types
-        contentConfiguration.addOverride(with: Self.stylesPath.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml")
+        contentConfiguration.addOverride(with: Self.stylesPath.value, type: .styles)
       }
 
       // save work sheets
@@ -366,32 +384,38 @@ public class XLSXDocument {
         // write worksheet
         try self.writeEntry(data.sheet, data.path.value, in: archive, withRootKey: "worksheet")
         // append worksheet path to content type configuration
-        contentConfiguration.addOverride(with: data.path.value, type: "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml")
+        contentConfiguration.addOverride(with: data.path.value, type: .worksheet)
+
       } // end for (worksheets)
 
       // save document relationships
       for data in documentRelationships {
+
         // get data components
         let documentPath: Path = data.path
-//        let relationships: Relationships = data.relations
-
-        //save any unsupported files (relationships that do not correspond to a Swift data object)
-        let relationships: Relationships = self.saveUnsupportedFiles(from: data.relations, in: archive)
+        let relationships: Relationships = data.relations
 
         // valid document path
         if let documentFileName: String = documentPath.lastPathComponent, !documentFileName.isEmpty {
 
-            // create relationship path
-            let relationshipsPath: Path = Self.documentRelationshipsPath.path(byAppending: "\(documentFileName).rels")
+          // create relationship path
+          let relationshipsPath: Path = Self.documentRelationshipsPath.path(byAppending: "\(documentFileName).rels")
 
-            // write relationships
-            try self.writeEntry(relationships, relationshipsPath.value, in: archive, rootAttributes: Self.relationshipsAttributes)
+          // write relationships
+          try self.writeEntry(relationships, relationshipsPath.value, in: archive, rootAttributes: Self.relationshipsAttributes)
 
         } // end if (valid document path)
+
+        //save any unsupported files (relationships that do not correspond to a Swift data object)
+        try self.saveUnsupportedFiles(from: data.relations, to: archive, configuration: &contentConfiguration, rootPath: Self.excelPath)
+
       } // end for (relationships)
 
       // write content types xml file
       try self.writeEntry(contentConfiguration, "[Content_Types].xml", in: archive, withRootKey: "Types", rootAttributes: Self.contentTypesAttributes)
+
+      //save any unsupported/missing files (relationships that do not correspond to a Swift data object)
+      try self.saveUnsupportedFiles(from: self.relationships, to: archive, configuration: &contentConfiguration)
 
     } // end if (created archive)
 
@@ -401,24 +425,47 @@ public class XLSXDocument {
     }
   } // end saveWorkbooks()
 
-    //TODO: copy files instead of removing them
-  private func saveUnsupportedFiles(from relationships: Relationships, in archive: Archive) -> Relationships {
+  private func saveUnsupportedFiles(from relationships: Relationships, to targetArchive: Archive, configuration: inout ContentTypes, rootPath: Path? = nil) throws {
 
-    var modified = relationships
-    modified.items.removeAll {
-      relationship in
-      //print("found: \(relationship) - type: \(relationship.type == .theme)")
-        return relationship.type == .theme
-    }
-//    for relationship in relationships.items {
-//        switch relationship.type {
-//            case .theme:
-//                //archive.addEntry(with: relationship.id, fileURL: <#T##URL#>)
-//            default:
-//                {}() //do nothing
-//        }
-//    }
-    return modified
+    //TODO: All relationships should have an associated XML coding object (this copy phase could then be skipped)
+    //find additional relationships
+    for relationship in relationships.items {
+
+      //check if item exists in new archive
+      do {
+
+        //create root based path
+        let fullPath: String
+        if let path = rootPath {
+          fullPath = path.path(byAppending: relationship.target).value
+        } else {
+          fullPath = relationship.target
+        }
+
+        //copy file
+        try self.file?.copyEntry(at: fullPath, to: targetArchive)
+
+        //add file to content types configuration
+        if !configuration.containsOverride(for: fullPath) {
+
+          //known application type
+          if let type = ContentTypes.ApplicationType(from: relationship.type) {
+            configuration.addOverride(with: fullPath, type: type)
+          }
+          //unknown type
+          else {
+            throw CoreXLSXWriteError.unrecognizedContentType(path: relationship.target, type: relationship.type.rawValue)
+          }
+        }
+      }
+      catch CoreXLSXWriteError.archiveEntryAlreadyExists {
+        //do nothing - entity already exists
+      }
+      catch {
+        throw error
+      }
+
+    } //end for (relationships)
 
   } //end saveUnsupportedFiles()
 
@@ -463,4 +510,5 @@ public class XLSXDocument {
     })
 
   } // end writeEntry()
+
 } // end struct XLSXDocument

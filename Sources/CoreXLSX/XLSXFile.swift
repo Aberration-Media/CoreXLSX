@@ -121,7 +121,79 @@ public class XLSXFile {
     }
 
     return try decoder.decode(type, from: data)
-  }
+
+  } //end parseEntry()
+
+  /**
+    Copy file entry to another archive
+   
+    - parameters:
+      - pathString: Entry String path in file archive
+      - destination: Target archive which will add a copy of the orginal file
+      - compressionMethod: Optional compression method setting, the default is 'deflate'
+   */
+  public func copyEntry(at pathString: String, to destination: Archive, compressionMethod: CompressionMethod = .deflate) throws {
+    let path = Path(pathString)
+    let entryPath = path.isRoot ? path.components.joined(separator: "/") : pathString
+
+    //check if entry exists in file archive
+    guard let entry: Entry = archive[entryPath] else {
+      throw CoreXLSXError.archiveEntryNotFound
+    }
+
+    // check if entry already exists in destination archive
+    if destination[entryPath] != nil {
+      throw CoreXLSXWriteError.archiveEntryAlreadyExists
+    }
+
+//    let progressHandler = Progress(totalUnitCount: Int64(entry.uncompressedSize))
+//    //let observer = self.keyValueObservingExpectation(for: progressHandler, keyPath: #keyPath(Progress.fractionCompleted), handler: handler)
+//    let observer = progressHandler.observe(\.fractionCompleted) {
+//        [unowned self] object, value in
+//
+//    }
+
+    //copy data from existing archive
+    let entryData = NSMutableData()
+    _ = try archive.extract(entry, bufferSize: UInt32(entry.uncompressedSize), skipCRC32: false, progress: nil, consumer:  { data in
+      entryData.append(data)
+    })
+
+    //copy data into destination archive
+    let size = entryData.count
+    try destination.addEntry(with: entryPath, type: .file, uncompressedSize: UInt32(size), compressionMethod: .deflate, provider: {
+      (position, bufferSize) -> Data in
+
+      //copy data chunk
+      let upperBound = Swift.min(size, position + bufferSize)
+      let range = NSRange(location: position, length: upperBound - position)
+      return entryData.subdata(with: range)
+    })
+    //try destination.addEntry(with: entryPath, type: entry.type, uncompressedSize: entry.uncompressedSize, provider: <#T##(Int, Int) throws -> Data#>)
+
+//    try archive.extract(entry, consumer: { (data) in
+//        print(data.count)
+//    })
+//    let provider: ((Data) throws -> Void) = {
+//      data in
+//    }
+
+//    let handler: XCTKVOExpectation.Handler = { (_, _) -> Bool in
+//        if progress.fractionCompleted > 0.5 {
+//            progress.cancel()
+//            return true
+//        }
+//        return false
+//    }
+
+//
+//    //skipped checksum - so returned checksum should always be zero
+//    _ = try archive.extract(entry, bufferSize: 1000, skipCRC32: true, progress: progressHandler, consumer: provider)
+//    //let data: Data = try encoder.encode(entry, withRootKey: withRootKey, rootAttributes: rootAttributes, header: header)
+//
+//    try destination.addEntry(with: entryPath, type: .file, uncompressedSize: UInt32(data.count), compressionMethod: .deflate, provider: provider)
+
+  } //end copyEntry()
 
   public func parseRelationships() throws -> Relationships {
     decoder.keyDecodingStrategy = .useDefaultKeys
@@ -131,7 +203,8 @@ public class XLSXFile {
 
   /// Return an array of paths to relationships of type `officeDocument`
   public func parseDocumentPaths() throws -> [String] {
-    return try parseRelationships().items
+    let relationships: Relationships = try parseRelationships()
+    return relationships.items
       .filter { $0.type == .officeDocument }
       .map { $0.target }
   }
@@ -186,6 +259,11 @@ public class XLSXFile {
   public func parseWorkbook(path: String) throws -> Workbook {
     try parseEntry(path, Workbook.self)
   }
+
+//  public func parseTheme(path: String) throws -> Theme {
+//    //decoder.keyDecodingStrategy = .useDefaultKeys
+//    return try parseEntry(path, Theme.self)
+//  }
 
   /** Return pairs of parsed document paths with corresponding relationships.
 

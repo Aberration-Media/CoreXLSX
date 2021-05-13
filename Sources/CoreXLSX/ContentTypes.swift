@@ -44,7 +44,44 @@ public struct ContentTypes: Codable {
 } // end struct ContentTypes
 
 public extension ContentTypes {
-  // MARK: Standard
+  
+  // MARK: Types
+
+  enum ApplicationType: String {
+    case core = "application/vnd.openxmlformats-package.core-properties+xml"
+    case extended = "application/vnd.openxmlformats-officedocument.extended-properties+xml"
+    case workbook = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"
+    case worksheet = "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"
+    case sharedStrings = "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"
+    case styles = "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"
+    case theme = "application/vnd.openxmlformats-officedocument.theme+xml"
+
+    public init?(from schemaType: Relationship.SchemaType) {
+
+      //match SchemaType to ApplicationType
+      switch schemaType {
+        case .packageCoreProperties:
+          self = .core
+        case .extendedProperties:
+          self = .extended
+        case .worksheet:
+          self = .worksheet
+        case .sharedStrings:
+          self = .sharedStrings
+        case .styles:
+          self = .styles
+        case .theme:
+          self = .theme
+        default:
+          return nil
+
+      } //end switch (SchemaType)
+
+    } //end constructor()
+
+  } //end enum ApplicationType
+
+  // MARK: Configurations
 
   /// content types populated with default formats
   static let standard: ContentTypes = {
@@ -62,8 +99,8 @@ public extension ContentTypes {
       Default(extension: "xlsx", type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
     ]
     let overrides: [Override] = [
-      Override(partName: "/docProps/core.xml", type: "application/vnd.openxmlformats-package.core-properties+xml"),
-      Override(partName: "/docProps/app.xml", type: "application/vnd.openxmlformats-officedocument.extended-properties+xml"),
+      Override(partName: "/docProps/core.xml", type: ApplicationType.core.rawValue),
+      Override(partName: "/docProps/app.xml", type: ApplicationType.extended.rawValue),
     ]
 
     var config = ContentTypes(defaults: defaults, overrides: overrides)
@@ -72,8 +109,20 @@ public extension ContentTypes {
 
   // MARK: - Content Functions
 
-  mutating func addOverride(with partName: String, type: String) {
-    let override = Override(partName: partName, type: type)
+  /**
+    Add an override part to the configuration
+   
+    - parameters:
+      - partName: The localalised file path to the associatied override
+      - type: The raw string type
+   */
+  mutating func addOverride(with partName: String, type: ApplicationType) {
+    let override = Override(partName: partName, type: type.rawValue)
     overrides.append(override)
   }
+
+  func containsOverride(for partName: String) -> Bool {
+    return overrides.contains(where: { $0.partName == partName })
+  }
+
 } // end extension ContentTypes
