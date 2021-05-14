@@ -41,7 +41,21 @@ extension Path: Equatable {
 
   ///path as a relative locator (exlcudes opening '/' character)
   public var relativePath: String {
-    return self.isRoot ? self.components.joined(separator: "/") : self.value
+    var adjustedComponents: [Substring] = []
+    for component in self.components {
+      //found 'level up' operator
+      if component == ".." {
+        if !adjustedComponents.isEmpty {
+          adjustedComponents.removeLast(1)
+        }
+      }
+      //standard path component
+      else {
+        adjustedComponents.append(component)
+      }
+    }
+
+    return adjustedComponents.joined(separator: "/")
   }
 
   // MARK: - Configuration Functions

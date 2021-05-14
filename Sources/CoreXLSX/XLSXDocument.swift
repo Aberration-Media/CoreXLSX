@@ -199,9 +199,7 @@ public class XLSXDocument {
       // get relationships
       do {
         relations = try safeFile.parseRelationships()
-        print("GOT DOCUMENT RELATIONS: \(relations)")
       } catch {
-        print("Error loading root relationships: \(error)")
         documentDelegate?.didReceiveError(for: self, error: error)
       }
     } // end if (found associated file)
@@ -415,6 +413,8 @@ public class XLSXDocument {
 
       } // end for (relationships)
 
+      //TODO: process customXML relations
+
       // write content types xml file
       try self.writeEntry(contentConfiguration, Path("[Content_Types].xml"), in: archive, withRootKey: "Types", rootAttributes: Self.contentTypesAttributes)
 
@@ -439,26 +439,27 @@ public class XLSXDocument {
       do {
 
         //create root based path
-        let fullPath: String
+        let fullPath: Path
         if let path = rootPath {
-          fullPath = path.path(byAppending: relationship.target).value
+          fullPath = path.path(byAppending: relationship.target)
         } else {
-          fullPath = relationship.target
+          fullPath = Path(relationship.target)
         }
 
         //copy file
         try self.file?.copyEntry(at: fullPath, to: targetArchive)
 
         //add file to content types configuration
-        if !configuration.containsOverride(for: fullPath) {
+        if !configuration.containsOverride(for: fullPath.value) {
 
           //known application type
           if let type = ContentTypes.ApplicationType(from: relationship.type) {
-            configuration.addOverride(with: fullPath, type: type)
+            configuration.addOverride(with: fullPath.value, type: type)
           }
           //unknown type
           else {
-            throw CoreXLSXWriteError.unrecognizedContentType(path: relationship.target, type: relationship.type.rawValue)
+            print("Found unrecognized content item(\(relationship.type.rawValue)) at path: \(relationship.target)")
+            //throw CoreXLSXWriteError.unrecognizedContentType(path: relationship.target, type: relationship.type.rawValue)
           }
         }
       }
@@ -477,7 +478,7 @@ public class XLSXDocument {
 
   private func writeSupportFile(_ contents: String, path: Path, in archive: Archive) throws {
     let entityPath: String = path.relativePath
-    
+
     // check if entry already exists
     if archive[entityPath] != nil {
       throw CoreXLSXWriteError.archiveEntryAlreadyExists

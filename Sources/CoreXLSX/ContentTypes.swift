@@ -55,6 +55,8 @@ public extension ContentTypes {
     case sharedStrings = "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"
     case styles = "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"
     case theme = "application/vnd.openxmlformats-officedocument.theme+xml"
+    case customProperties = "application/vnd.openxmlformats-officedocument.custom-properties+xml"
+    case customXmlProperties = "application/vnd.openxmlformats-officedocument.customXmlProperties+xml"
 
     public init?(from schemaType: Relationship.SchemaType) {
 
@@ -72,6 +74,10 @@ public extension ContentTypes {
           self = .styles
         case .theme:
           self = .theme
+        case .customProperties:
+          self = .customProperties
+        case .customXmlProperties:
+          self = .customXmlProperties
         default:
           return nil
 

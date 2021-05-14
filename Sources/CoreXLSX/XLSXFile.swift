@@ -132,12 +132,12 @@ public class XLSXFile {
       - destination: Target archive which will add a copy of the orginal file
       - compressionMethod: Optional compression method setting, the default is 'deflate'
    */
-  public func copyEntry(at pathString: String, to destination: Archive, compressionMethod: CompressionMethod = .deflate) throws {
-    let path = Path(pathString)
-    let entryPath = path.isRoot ? path.components.joined(separator: "/") : pathString
+  public func copyEntry(at path: Path, to destination: Archive, compressionMethod: CompressionMethod = .deflate) throws {
+    let entryPath = path.relativePath
 
     //check if entry exists in file archive
     guard let entry: Entry = archive[entryPath] else {
+      print("failed to find entry: \(entryPath)")
       throw CoreXLSXError.archiveEntryNotFound
     }
 
@@ -148,7 +148,7 @@ public class XLSXFile {
 
     //copy data from existing archive
     let entryData = NSMutableData()
-    _ = try archive.extract(entry, bufferSize: UInt32(entry.uncompressedSize), skipCRC32: false, progress: nil, consumer:  { data in
+    _ = try archive.extract(entry, bufferSize: UInt32(entry.uncompressedSize), skipCRC32: false, progress: nil, consumer: { data in
       entryData.append(data)
     })
 

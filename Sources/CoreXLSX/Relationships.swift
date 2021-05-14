@@ -105,6 +105,11 @@ public struct Relationship: Codable, Equatable {
       http://schemas.openxmlformats.org/officeDocument/2006/relationships/\
       customXml
       """
+    case customXmlProperties =
+      """
+      http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXmlProps
+      """
+    
   }
 
   enum CodingKeys: String, CodingKey {
