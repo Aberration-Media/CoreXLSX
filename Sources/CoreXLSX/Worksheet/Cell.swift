@@ -27,6 +27,8 @@ public enum CellType: String, Codable {
 }
 
 
+
+
 /// [docs](https://wiki.ucl.ac.uk/display/~ucftpw2/2013/10/22/Using+git+for+version+control+of+Excel+spreadsheets+-+part+2+of+3)
 public struct Cell: Codable, Equatable {
   public internal(set) var reference: CellReference
@@ -37,7 +39,10 @@ public struct Cell: Codable, Equatable {
   // while the cell type "s" corresponds to the shared string table.
   // Can XMLCoder distinguish between an attribute and an
   // element having the same name?
-  public internal(set) var s: String? //TODO: change name to 'style'
+  @available(*, deprecated, renamed: "styles")
+  public internal(set) var s: String?
+
+  public internal(set) var styles: String?
   public internal(set) var inlineString: InlineString?
   public internal(set) var formula: Formula?
   public internal(set) var value: String?
@@ -58,6 +63,6 @@ public struct Cell: Codable, Equatable {
     case inlineString = "is"
     case reference = "r"
     case type = "t"
-    case s
+    case styles = "s"
   }
 }
