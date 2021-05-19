@@ -46,7 +46,7 @@ public enum CoreXLSXWriteError: Error, CustomStringConvertible {
 public class XLSXDocument {
 
 
-  // MARK:
+  // MARK: ...
   // MARK: Configuration XML
 
   // disabled lint rule to allow hard coded XML entries
@@ -63,7 +63,7 @@ public class XLSXDocument {
 
 
 
-  // MARK:
+  // MARK: ...
   // MARK: Document Paths
 
   /// '_rels/.rels' document path
@@ -95,7 +95,7 @@ public class XLSXDocument {
 
 
 
-  // MARK:
+  // MARK: ...
   // MARK: Attributes
 
   /// XML header
@@ -133,7 +133,7 @@ public class XLSXDocument {
 
 
 
-  // MARK:
+  // MARK: ...
   // MARK: Document Properties
 
   /// delegate for document events
@@ -235,7 +235,7 @@ public class XLSXDocument {
 
   }()
 
-  
+
 
   /// list of document relationships
   public lazy var documentRelationships: [(path: Path, relations: Relationships)] = {
@@ -328,7 +328,7 @@ public class XLSXDocument {
 
 
 
-  // MARK:
+  // MARK: ...
   // MARK: Encoding Properties
 
   /// XML encoder
@@ -343,7 +343,7 @@ public class XLSXDocument {
 
 
 
-  // MARK:
+  // MARK: ...
   // MARK: - Configuration Functions
 
   public init() {
@@ -407,10 +407,7 @@ public class XLSXDocument {
       }
     } // end if (file exists)
 
-    // TODO: There seems to be a Excel compatibility issue with ZipFoundation
-    // Possible causes related to the default system byte or version information:
-    // https://github.com/mvdnes/zip-rs/issues/23
-    // https://github.com/mvdnes/zip-rs/issues/72
+
     // create archive
     if let archive = Archive(url: archiveURL, accessMode: .create) {
 
@@ -537,11 +534,15 @@ public class XLSXDocument {
             print("Found unrecognized content item(\(relationship.type.rawValue)) at path: \(relationship.target)")
             //throw CoreXLSXWriteError.unrecognizedContentType(path: relationship.target, type: relationship.type.rawValue)
           }
-        }
+
+        } //end if (configuration override is missing)
+
       }
+      //ignore entries that already exist
       catch CoreXLSXWriteError.archiveEntryAlreadyExists {
         //do nothing - entity already exists
       }
+      //pass on generic errors
       catch {
         throw error
       }

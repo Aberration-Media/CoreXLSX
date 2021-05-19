@@ -47,7 +47,7 @@ public enum CoreXLSXError: Error {
  */
 public class XLSXFile {
 
-  // MARK:
+  // MARK: ...
   // MARK: Path Constants
 
   /// directory name for relationship files
@@ -57,7 +57,7 @@ public class XLSXFile {
   internal static let relationshipsFileExtension: Substring = ".rels"
 
 
-  // MARK:
+  // MARK: ...
   // MARK: File Properties
 
   /// URL of XLSX file
@@ -67,7 +67,7 @@ public class XLSXFile {
   private let archive: Archive
 
 
-  // MARK:
+  // MARK: ...
   // MARK: Decoding Properties
 
   /// XML decoder for parsing XLSX documents
@@ -82,7 +82,7 @@ public class XLSXFile {
   private let bufferSize: UInt32
 
 
-  // MARK:
+  // MARK: ...
   // MARK: - Configuration Functions
 
   /// - Parameters:

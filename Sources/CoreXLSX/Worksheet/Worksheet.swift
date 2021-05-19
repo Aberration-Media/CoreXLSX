@@ -327,4 +327,3 @@ public struct InlineString: Codable, Equatable {
   }
 
 } //end struct InlineString
-

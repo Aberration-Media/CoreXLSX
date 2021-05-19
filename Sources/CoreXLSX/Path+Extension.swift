@@ -9,6 +9,7 @@ import Foundation
 
 extension Path: Equatable {
 
+  // MARK: ...
   // MARK: Convenience Properties
 
   /// evalutated path components (processes` up folder` `"../"` components)
@@ -29,9 +30,9 @@ extension Path: Equatable {
     }
 
     return adjustedComponents
-    
+
   }
-  
+
 
   /// retrieve component after the final path separator('/') if one exists
   public var lastPathComponent: String? {
@@ -62,16 +63,21 @@ extension Path: Equatable {
     return path
   }
 
+
   ///path as a relative locator (exlcudes opening '/' character)
   public var relativePath: String {
     return self.evaluatedPathComponents.joined(separator: "/")
   }
-  
+
+
   ///path as a absolute locator (enforces opening '/' character)
   public var absolutePath: String {
     return "/" + self.evaluatedPathComponents.joined(separator: "/")
   }
 
+
+
+  // MARK: ...
   // MARK: - Configuration Functions
 
   public init(rootPath: String) {

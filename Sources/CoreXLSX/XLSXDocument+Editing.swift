@@ -20,6 +20,7 @@ extension XLSXDocument {
     return workbook
   } // end createWorkbook()
 
+
   @discardableResult public func createWorksheet(named: String, for workbook: Workbook) -> Worksheet? {
     // find workbook path
     guard let workbookPath: Path = workbooksMap.first(where: { $0.book == workbook })?.path else {
@@ -41,6 +42,7 @@ extension XLSXDocument {
     return worksheet
   } // end createWorksheet()
 
+
   @discardableResult internal func addDocumentRelationship(for relationshipsPath: Path, with type: Relationship.SchemaType, target: String) -> Relationship {
     let relationship: Relationship
 
@@ -58,6 +60,8 @@ extension XLSXDocument {
     return relationship
 
   } // end addDocumentRelationship()
+
+
 
   // MARK: - Editing Functions
 

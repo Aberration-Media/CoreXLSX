@@ -8,6 +8,7 @@ disabled_rules:
 - switch_case_alignment  #disabled, this is a personal preference but I believe indenting should always occur inside parenthesis ({})
 - vertical_whitespace    #disabled, again personal perference based on the very subjective term of 'readability'. There is a graphic design principle 'negative space' which I feel strongly applies for code formatting as well.
 - closure_parameter_position #disabled, personal preference. Closures often occur at the end of method calls which can hide the input variables at the end of a line. Allowing the input variables to exist on their own line below the closure declaration can greatly enhance readability.
+- statement_position     #disabled, personal perference. This rule prevents additional commenting around else/catch blocks
 
           
 #`file_length` has no consideration for blank space or comment lines and is an extremely arbitrary way of managing code length and it works against 'in-code' documentation. 
@@ -15,6 +16,9 @@ disabled_rules:
 file_length:
 - 2500
 
+#increase allowed body length
+type_body_length:
+- 300
 
 line_length:
 # increased line lengths as the defaults would fail for long URL schemes and also  can discourage the use of human readable naming conventions
