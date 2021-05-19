@@ -44,7 +44,7 @@ public struct ContentTypes: Codable {
 } // end struct ContentTypes
 
 public extension ContentTypes {
-  
+
   // MARK: Types
 
   enum ApplicationType: String {

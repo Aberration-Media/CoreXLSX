@@ -19,25 +19,58 @@ import Foundation
 import XMLCoder
 import ZIPFoundation
 
+
+// MARK: -
+// MARK: - CoreXLSXError -
+
 @available(*, deprecated, renamed: "CoreXLSXError")
 public typealias XLSXReaderError = CoreXLSXError
 
 public enum CoreXLSXError: Error {
+
   case dataIsNotAnArchive
   case archiveEntryNotFound
   case invalidCellReference
   case unsupportedWorksheetPath
-}
+  case invalidDocumentPath
+
+} //end enum CoreXLSXError
+
+
+
+
+// MARK: -
+// MARK: - XLSXFile -
 
 /** The entry point class that represents an open file handle to an existing `.xlsx` file on the
  user's filesystem.
  */
 public class XLSXFile {
 
+  // MARK:
+  // MARK: Path Constants
+
+  /// directory name for relationship files
+  internal static let relationshipsFolderName: Substring = "_rels"
+
+  /// file name for relationship files
+  internal static let relationshipsFileExtension: Substring = ".rels"
+
+
+  // MARK:
+  // MARK: File Properties
+
   /// URL of XLSX file
   public var fileURL: URL { return archive.url }
 
+  /// archive containing XLSX data
   private let archive: Archive
+
+
+  // MARK:
+  // MARK: Decoding Properties
+
+  /// XML decoder for parsing XLSX documents
   private let decoder: XMLDecoder = {
     let result = XMLDecoder()
     result.trimValueWhitespaces = false
@@ -47,6 +80,10 @@ public class XLSXFile {
 
   /// Buffer size passed to `archive.extract` call
   private let bufferSize: UInt32
+
+
+  // MARK:
+  // MARK: - Configuration Functions
 
   /// - Parameters:
   ///   - filepath: path to the `.xlsx` file to be processed.
@@ -75,9 +112,11 @@ public class XLSXFile {
     self.archive = archive
     self.bufferSize = bufferSize
     decoder.errorContextLength = errorContextLength
-  }
 
-  #if swift(>=5.0)
+  } //end constructor()
+
+
+#if swift(>=5.0)
   /// - Parameters:
   ///   - data: content of the `.xlsx` file to be processed.
   ///   - bufferSize: ZIP archive buffer size in bytes. The default is 10KB.
@@ -91,14 +130,20 @@ public class XLSXFile {
     bufferSize: UInt32 = 10 * 1024 * 1024,
     errorContextLength: UInt = 0
   ) throws {
+
     guard let archive = Archive(data: data, accessMode: .read)
     else { throw CoreXLSXError.dataIsNotAnArchive }
 
     self.archive = archive
     self.bufferSize = bufferSize
     decoder.errorContextLength = errorContextLength
-  }
-  #endif
+
+  } //end constructor()
+
+#endif
+
+
+  // MARK: - Decoding Functions
 
   /// Parse a file within `archive` at `path`. Parsing result is
   /// an instance of `type`.
@@ -123,6 +168,9 @@ public class XLSXFile {
     return try decoder.decode(type, from: data)
 
   } //end parseEntry()
+
+
+  // MARK: - File Functions
 
   /**
     Copy file entry to another archive
@@ -165,31 +213,82 @@ public class XLSXFile {
 
   } //end copyEntry()
 
+
+
+  // MARK: - Relationship Functions
+
+  /// returns the relationship path associated with the specified document path
+  internal static func relationshipPath(for documentPath: Path) -> Path? {
+
+    var components = documentPath.evaluatedPathComponents
+
+    //found file components
+    if !components.isEmpty, let fileName: Substring = components.last {
+
+      //insert relationships folder path
+      components.insert(Self.relationshipsFolderName, at: components.count - 1)
+
+      //replace path file name with relationships filename
+      components[components.count - 1] = Substring(fileName.appending(Self.relationshipsFileExtension))
+
+      return Path(components.joined(separator: "/"))
+
+    } //end if (found file components)
+
+    return nil
+
+  } //end relationshipPath()
+
+
   public func parseRelationships() throws -> Relationships {
     decoder.keyDecodingStrategy = .useDefaultKeys
 
-    return try parseEntry("_rels/.rels", Relationships.self)
-  }
+    //parse root relationships
+    return try parseEntry("\(Self.relationshipsFolderName)/\(Self.relationshipsFileExtension)", Relationships.self)
+
+  } //end parseRelationships()
+
 
   /// Return an array of paths to relationships of type `officeDocument`
   public func parseDocumentPaths() throws -> [String] {
+
+    //get relationships
     let relationships: Relationships = try parseRelationships()
+
+    //get document paths
+    return try self.parsePaths(of: .officeDocument, in: relationships)
+
+  } //end parseDocumentPaths()
+
+
+  /// Return an array of paths to relationships of the specified type
+  public func parsePaths(of type: Relationship.SchemaType, in relationships: Relationships) throws -> [String] {
+
+    //find paths
     return relationships.items
-      .filter { $0.type == .officeDocument }
+      .filter { $0.type == type }
       .map { $0.target }
-  }
+
+  } //end parsePaths()
+
 
   public func parseStyles() throws -> Styles {
     decoder.keyDecodingStrategy = .useDefaultKeys
 
     return try parseEntry("xl/styles.xml", Styles.self)
-  }
+
+  } //end parseStyles()
+
 
   public func parseSharedStrings() throws -> SharedStrings {
     decoder.keyDecodingStrategy = .useDefaultKeys
 
     return try parseEntry("xl/sharedStrings.xml", SharedStrings.self)
-  }
+
+  } //end parseSharedStrings()
+
+
+  // MARK: - Comment Processing
 
   private func buildCommentsPath(forWorksheet path: String) throws -> String {
     let pattern = "xl\\/worksheets\\/sheet(\\d+)[.]xml"
@@ -212,6 +311,9 @@ public class XLSXFile {
 
     return try parseEntry(commentsPath, Comments.self)
   }
+
+
+  // MARK: - Document Processing
 
   /// Parse and return an array of workbooks in this file.
   /// Worksheet names can be read as properties on the `Workbook` model type.
@@ -242,8 +344,7 @@ public class XLSXFile {
    paths. Use `parseDocumentRelationships(path:)` instead.
    */
   @available(*, deprecated, renamed: "parseDocumentRelationships(path:)")
-  public func parseDocumentRelationships() throws
-    -> [([Substring], Relationships)] {
+  public func parseDocumentRelationships() throws -> [([Substring], Relationships)] {
     decoder.keyDecodingStrategy = .useDefaultKeys
 
     return try parseDocumentPaths()
@@ -251,10 +352,10 @@ public class XLSXFile {
         let originalComponents = path.split(separator: "/")
         var components = originalComponents
 
-        components.insert("_rels", at: 1)
+        components.insert(Self.relationshipsFolderName, at: 1)
         guard let filename = components.last else { return nil }
         components[components.count - 1] =
-          Substring(filename.appending(".rels"))
+          Substring(filename.appending(Self.relationshipsFileExtension))
 
         let relationships = try parseEntry(
           components.joined(separator: "/"),
@@ -262,35 +363,34 @@ public class XLSXFile {
         )
         return (originalComponents, relationships)
       }
-  }
+
+  } //end parseDocumentRelationships()
+
 
   /// Return parsed path with a parsed relationships model for a document at
   /// given path. Use `parseDocumentPaths` first to get a string path to pass
   /// as an argument to this function.
-  public func parseDocumentRelationships(path: String) throws
-    -> (Path, Relationships) {
+  public func parseDocumentRelationships(path: String) throws -> (Path, Relationships) {
     decoder.keyDecodingStrategy = .useDefaultKeys
 
     let originalPath = Path(path)
-    var components = originalPath.components
+    guard let relationshipPath: Path = Self.relationshipPath(for: originalPath) else {
+      throw CoreXLSXError.invalidDocumentPath
+    }
 
-    components.insert("_rels", at: 1)
-    guard let filename = components.last else { fatalError() }
-    components[components.count - 1] =
-      Substring(filename.appending(".rels"))
-
-    let relationships = try parseEntry(
-      components.joined(separator: "/"),
-      Relationships.self
-    )
+    //parse entry
+    let relationships = try parseEntry(relationshipPath.relativePath, Relationships.self )
 
     return (originalPath, relationships)
-  }
+
+  } //end parseDocumentRelationships()
+
+
+  // MARK: - Worksheet Processing
 
   /// Parse and return an array of worksheets in this XLSX file with their corresponding names.
-  public func parseWorksheetPathsAndNames(
-    workbook: Workbook
-  ) throws -> [(name: String?, path: String)] {
+  public func parseWorksheetPathsAndNames(workbook: Workbook) throws -> [(name: String?, path: String)] {
+
     return try parseDocumentPaths().map {
       try parseDocumentRelationships(path: $0)
     }.flatMap { (path, relationships) -> [(name: String?, path: String)] in
@@ -308,7 +408,9 @@ public class XLSXFile {
 
       return worksheets.map { (name: sheetIDs[$0.id], path: "\(pathPrefix)/\($0.target)") }
     }
-  }
+
+  } //end parseWorksheetPathsAndNames()
+
 
   /// Parse and return an array of worksheets in this XLSX file.
   public func parseWorksheetPaths() throws -> [String] {
@@ -325,14 +427,18 @@ public class XLSXFile {
 
       return worksheets.map { "\(pathPrefix)/\($0.target)" }
     }
-  }
+
+  } //end parseWorksheetPaths()
+
 
   /// Parse a worksheet at a given path contained in this XLSX file.
   public func parseWorksheet(at path: String) throws -> Worksheet {
     decoder.keyDecodingStrategy = .useDefaultKeys
 
     return try parseEntry(path, Worksheet.self)
-  }
+
+  } //end parseWorksheet()
+
 
   /// Return all cells that are contained in a given worksheet and set of rows.
   @available(*, deprecated, renamed: "Worksheet.cells(atRows:)")
@@ -342,15 +448,16 @@ public class XLSXFile {
 
     return ws.data?.rows.filter { rows.contains(Int($0.reference)) }
       .reduce([]) { $0 + $1.cells } ?? []
-  }
+
+  } //end cellsInWorksheet()
+
 
   /// Return all cells that are contained in a given worksheet and set of
   /// columns. This overloaded version is deprecated, you should pass
   /// an array of `ColumnReference` values as `columns` instead of an array
   /// of `String`s.
   @available(*, deprecated, renamed: "Worksheet.cells(atColumns:)")
-  public func cellsInWorksheet(at path: String, columns: [String]) throws
-    -> [Cell] {
+  public func cellsInWorksheet(at path: String, columns: [String]) throws -> [Cell] {
     let ws = try parseWorksheet(at: path)
 
     return ws.data?.rows.map {
@@ -363,5 +470,7 @@ public class XLSXFile {
       return $0.cells.filter { targetReferences.contains($0.reference) }
     }
     .reduce([]) { $0 + $1 } ?? []
-  }
-}
+
+  } //end cellsInWorksheet()
+
+} //end class XLSXFile

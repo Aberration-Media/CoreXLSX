@@ -17,7 +17,12 @@
 
 import Foundation
 
+
+// MARK: -
+// MARK: - Worksheet Extension
+
 public extension Worksheet {
+
   /// Return all cells that are contained in a given worksheet and collection of
   /// columns.
   func cells<T>(atColumns columns: T) -> [Cell]
@@ -28,6 +33,7 @@ public extension Worksheet {
     .reduce([]) { $0 + $1 } ?? []
   }
 
+
   /// Return all cells that are contained in a given worksheet and collection of
   /// rows.
   func cells<T>(atRows rows: T) -> [Cell]
@@ -35,6 +41,7 @@ public extension Worksheet {
     return data?.rows.filter { rows.contains($0.reference) }
       .reduce([]) { $0 + $1.cells } ?? []
   }
+
 
   /// Return all cells that are contained in a given worksheet and collections
   /// of rows and columns.
@@ -46,24 +53,17 @@ public extension Worksheet {
     }
     .reduce([]) { $0 + $1 } ?? []
   }
-}
 
-let referenceCalendar = Calendar(identifier: .gregorian)
-let referenceTimeZone = TimeZone.autoupdatingCurrent
-private let referenceDate = DateComponents(
-  calendar: referenceCalendar,
-  timeZone: referenceTimeZone,
-  year: 1899,
-  month: 12,
-  day: 30,
-  hour: 0,
-  minute: 0,
-  second: 0,
-  nanosecond: 0
-).date
-private let secondsInADay: Double = 86400
+} //end extension Worksheet
+
+
+
+// MARK: -
+// MARK: - Cell Extension
 
 public extension Cell {
+
+
   /// Returns a string value for this cell, potentially loading a shared string value from a
   /// given `sharedStrings` argument.
   func stringValue(_ sharedStrings: SharedStrings) -> String? {
@@ -72,6 +72,7 @@ public extension Cell {
     return sharedStrings.items[index].text
   }
 
+
   /// Returns the value of the cell as a RichText, from a given `sharedStrings` argument.
   func richStringValue(_ sharedStrings: SharedStrings) -> [RichText] {
     guard type == .sharedString, let index = value.flatMap(Int.init) else { return [] }
@@ -79,7 +80,7 @@ public extension Cell {
     return sharedStrings.items[index].richText
   }
 
-  // swiftlint:disable line_length
+
   /// Returns a date value parsed from the cell in the [OLE Automation
   /// Date](https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tooadate?view=netframework-4.8)
   /// format. As this format doesn't encode time zones, current user's time zone is used, which is
@@ -102,4 +103,25 @@ public extension Cell {
 
     return referenceCalendar.date(byAdding: .second, value: seconds, to: addedDays)
   }
-}
+
+} //end extension Cell
+
+
+
+// MARK: -
+// MARK: - Global Properties
+
+let referenceCalendar = Calendar(identifier: .gregorian)
+let referenceTimeZone = TimeZone.autoupdatingCurrent
+private let referenceDate = DateComponents(
+  calendar: referenceCalendar,
+  timeZone: referenceTimeZone,
+  year: 1899,
+  month: 12,
+  day: 30,
+  hour: 0,
+  minute: 0,
+  second: 0,
+  nanosecond: 0
+).date
+private let secondsInADay: Double = 86400

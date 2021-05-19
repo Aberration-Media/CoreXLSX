@@ -27,7 +27,13 @@ public typealias SheetFormatPr = Worksheet.FormatProperties
 @available(*, deprecated, renamed: "Worksheet.Dimension")
 public typealias WorksheetDimension = Worksheet.Dimension
 
+
+
+// MARK: -
+// MARK: - Worksheet
+
 public struct Worksheet: Codable {
+
   public struct Properties: Codable, Equatable {
     public let pageSetUpProperties: PageSetUpProperties?
 
@@ -108,7 +114,7 @@ public struct Worksheet: Codable {
     }
   }
 
-  // swiftlint:disable:next line_length
+
   /// [Microsoft docs](https://docs.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.sheetdimension?view=openxml-2.8.1)
   public let dimension: Dimension?
 
@@ -145,7 +151,12 @@ public struct Worksheet: Codable {
     case data = "sheetData"
     case mergeCells
   }
-}
+
+} //end struct Worksheet
+
+
+// MARK: -
+// MARK: - PageSetUpProperties
 
 @available(*, deprecated, renamed: "PageSetUpProperties")
 typealias PageSetUpPr = PageSetUpProperties
@@ -158,7 +169,13 @@ public struct PageSetUpProperties: Codable, Equatable {
     case fitToPage
     case autoPageBreaks
   }
-}
+
+} //end struct PageSetUpProperties
+
+
+
+// MARK: -
+// MARK: - SheetViews
 
 public struct SheetViews: Codable {
   public let items: [SheetView]
@@ -166,7 +183,12 @@ public struct SheetViews: Codable {
   enum CodingKeys: String, CodingKey {
     case items = "sheetView"
   }
-}
+
+} //end struct SheetView
+
+
+// MARK: -
+// MARK: - SheetView
 
 public struct SheetView: Codable {
   public let workbookViewId: String
@@ -180,15 +202,27 @@ public struct SheetView: Codable {
     case defaultGridColor
     case pane
   }
-}
+
+} //end struct SheetView
+
+
+// MARK: -
+// MARK: - Pane
 
 public struct Pane: Codable {
+
   public let topLeftCell: String?
   public let xSplit: String?
   public let ySplit: String?
   public let activePane: String?
   public let state: String?
-}
+
+} //end struct Pane
+
+
+
+// MARK: -
+// MARK: - Columns
 
 @available(*, deprecated, renamed: "Columns")
 public typealias Cols = Columns
@@ -199,12 +233,16 @@ public struct Columns: Codable, Equatable {
   enum CodingKeys: String, CodingKey {
     case items = "col"
   }
-}
+} //end struct Columns
+
+
+// MARK: -
+// MARK: - Column
 
 @available(*, deprecated, renamed: "Column")
 public typealias Col = Column
 
-// swiftlint:disable line_length
+
 /// [Microsoft
 /// docs](https://docs.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.column?view=openxml-2.8.1)
 public struct Column: Codable, Equatable {
@@ -214,7 +252,12 @@ public struct Column: Codable, Equatable {
   public var width: Double
   public var style: UInt32?
   public var customWidth: Bool?
-}
+
+} //end struct Column
+
+
+// MARK: -
+// MARK: - Row
 
 public struct Row: Codable {
   public internal(set) var reference: UInt
@@ -234,7 +277,12 @@ public struct Row: Codable {
     case height = "ht"
     case customHeight
   }
-}
+
+} //end struct Row
+
+
+// MARK: -
+// MARK: - MergeCells
 
 public struct MergeCells: Codable {
   public let count: Int?
@@ -244,9 +292,14 @@ public struct MergeCells: Codable {
     case items = "mergeCell"
     case count
   }
-}
+} //end struct MergeCells
+
+
+// MARK: -
+// MARK: - MergeCell
 
 public struct MergeCell: Codable {
+
   /// A reference of format "A1:F1"
   public let reference: String
 
@@ -258,7 +311,13 @@ public struct MergeCell: Codable {
   enum CodingKeys: String, CodingKey {
     case reference = "ref"
   }
-}
+
+} //end struct MergeCell
+
+
+
+// MARK: -
+// MARK: - InlineString
 
 public struct InlineString: Codable, Equatable {
   public let text: String?
@@ -266,4 +325,6 @@ public struct InlineString: Codable, Equatable {
   enum CodingKeys: String, CodingKey {
     case text = "t"
   }
-}
+
+} //end struct InlineString
+

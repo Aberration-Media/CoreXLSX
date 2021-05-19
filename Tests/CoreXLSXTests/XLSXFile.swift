@@ -42,7 +42,7 @@ final class CoreXLSXTests: XCTestCase {
         //copy items
         let relationShips: Relationships = try file.parseRelationships()
         for relation in relationShips.items {
-          try file.copyEntry(at: relation.target, to: archive)
+          try file.copyEntry(at: Path(relation.target), to: archive)
         }
 
         //check items

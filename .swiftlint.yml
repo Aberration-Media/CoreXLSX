@@ -5,16 +5,28 @@ disabled_rules:
 - operator_whitespace
 - nesting
 - cyclomatic_complexity
+- switch_case_alignment  #disabled, this is a personal preference but I believe indenting should always occur inside parenthesis ({})
+- vertical_whitespace    #disabled, again personal perference based on the very subjective term of 'readability'. There is a graphic design principle 'negative space' which I feel strongly applies for code formatting as well.
+- closure_parameter_position #disabled, personal preference. Closures often occur at the end of method calls which can hide the input variables at the end of a line. Allowing the input variables to exist on their own line below the closure declaration can greatly enhance readability.
+
+          
+#`file_length` has no consideration for blank space or comment lines and is an extremely arbitrary way of managing code length and it works against 'in-code' documentation. 
+#The 'type_body_length' rule is far more effective for managing code size however this does not address large files containing multiple classes. Consequently I have enabled the 'file_length' rule but increased the limit so it will only impact excessive violations. 
+file_length:
+- 2500
+
 
 line_length:
-# increased line lengths as the defaults can discourage the use of human readable naming conventions
+# increased line lengths as the defaults would fail for long URL schemes and also  can discourage the use of human readable naming conventions
 - 200
 - 300
 #- 100
 #- 120
 
+           
 function_body_length:
 - 50
+
 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Carthage
