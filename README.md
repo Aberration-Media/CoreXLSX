@@ -111,6 +111,64 @@ let fonts = styles.fonts?.items.compactMap { $0.name?.value }
 ```
 
 
+----
+
+### Editing
+
+Editable access to XLSX files is performed using the `XLSXDocument` class. 
+
+```swift
+import CoreXLSX
+
+//open XLSX file
+let filepath = "path/file.xlsx"
+guard let file = XLSXFile(filepath: filepath) else {
+  fatalError("XLSX file at \(filepath) is corrupted or does not exist")
+}
+
+
+// create editable document from XLSX file
+let document = XLSXDocument(with: file)
+
+// perform modifications
+document.modifyWorksheet(at: 0) { ( worksheet: inout Worksheet, sharedStrings: inout SharedStrings) in
+
+  //add new row
+  let styles = worksheet.lastRow?.styles()
+  worksheet.addRow(with: ["abc", "def", "hij", "klm"], sharedStrings: &sharedStrings, styles: styles)
+  worksheet.insertRow(at: 3, with: ["in1", "in2"], sharedStrings: &sharedStrings, styles: styles)
+  worksheet.deleteRows(in: 0..<3)
+  worksheet.updateRowValues(at: 4, with: ["replace RICH"], sharedStrings: &sharedStrings)
+  worksheet.updateColumnValues(at: 5, row: 2, with: ["test1", "test2", "test3", "test4", "test5", "test5"], sharedStrings: &sharedStrings)
+  worksheet.deleteColumns(in: 0..<1)
+
+} //end modify closure
+
+//save changes to file (must occur outside modify closure for changes to be recorded)
+let outputFile = "/output.xlsx"
+try? document.save(to: outputFile, overwrite: true)
+
+```
+
+To observe document errors implement the `XLSXDocumentDelegate` protocol.
+
+```swift
+class Editor: XLSXDocumentDelegate {
+
+  public func processDocument() {
+
+    //create document and listen 
+    let document = XLSXDocument()
+    document.documentDelegate = self
+
+  }
+
+  public func didReceiveError(for document: XLSXDocument, error: Error) {
+    print("Error processing document: \(error)")
+  }
+
+}
+```
 
 ----
 

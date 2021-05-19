@@ -34,7 +34,7 @@ public struct Cell: Codable, Equatable {
   public internal(set) var reference: CellReference
   public internal(set) var type: CellType?
 
-  // swiftlint:disable:next todo
+
   // FIXME: Attribute "s" in a cell is an index into the styles table,
   // while the cell type "s" corresponds to the shared string table.
   // Can XMLCoder distinguish between an attribute and an
