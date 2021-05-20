@@ -9,19 +9,23 @@ import Foundation
 
 extension XLSXDocument {
 
-  // MARK: - Document Functions
+  // MARK: - Document Creation Functions
 
-  @discardableResult public func createWorkbook(named: String) -> Workbook {
+  @discardableResult public func createWorkbook(named: String) -> Path {
+
     // create workbook
     let path: Path = Self.excelPath.path(byAppending: "\(named).xml")
     let workbook = Workbook()
     workbooksMap.append((path: path, book: workbook))
     relationships.addRelationship(with: .officeDocument, target: path.value)
-    return workbook
+
+    return path
+
   } // end createWorkbook()
 
 
-  @discardableResult public func createWorksheet(named: String, for workbook: Workbook) -> Worksheet? {
+  @discardableResult public func createWorksheet(named: String, for workbook: inout Workbook) -> Worksheet? {
+
     // find workbook path
     guard let workbookPath: Path = workbooksMap.first(where: { $0.book == workbook })?.path else {
       print("Workbook does not belong to this document")
@@ -29,17 +33,20 @@ extension XLSXDocument {
     }
 
     // create new worksheet
-    let workSheetPath: Path = Self.worksheetsPath.path(byAppending: "\(named).xml")
+    let absoluteWorkSheetPath: Path = Self.absoluteWorksheetsPath.path(byAppending: "\(named).xml")
+    let relativeWorkSheetPath: Path = Self.relativeWorksheetsPath.path(byAppending: "\(named).xml")
     let worksheet = Worksheet()
-    worksheetsMap.append((path: workSheetPath, sheet: worksheet))
-
-    // TODO: add worksheet to workbook
+    worksheetsMap.append((path: absoluteWorkSheetPath, sheet: worksheet))
 
     // add worksheet relationships
-    addDocumentRelationship(for: workbookPath, with: .worksheet, target: workSheetPath.value)
-    addDocumentRelationship(for: workbookPath, with: .sharedStrings, target: Self.sharedStringsPath.value)
+    let sheetRelationship = addDocumentRelationship(for: workbookPath, with: .worksheet, target: relativeWorkSheetPath.value)
+    addDocumentRelationship(for: workbookPath, with: .sharedStrings, target: Self.sharedStringsFileName)
 
+    // add worksheet to workbook
+    workbook.addSheet(named: named, relationshipId: sheetRelationship.id)
+    
     return worksheet
+
   } // end createWorksheet()
 
 
@@ -62,6 +69,20 @@ extension XLSXDocument {
   } // end addDocumentRelationship()
 
 
+
+  // MARK: - Document Retrieval Functions
+
+  internal func indexForWorkbook(with path: Path) -> Int? {
+
+    //find index of first workbook with a matching path
+    return self.workbooksMap.firstIndex {
+      (bookPath: Path, _: Workbook) in
+      
+      return bookPath == path
+    }
+
+  } //end indexForWorkbook()
+  
 
   // MARK: - Editing Functions
 

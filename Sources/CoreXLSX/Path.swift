@@ -24,5 +24,7 @@ public struct Path {
     self.value = value
     isRoot = value.first == "/"
     components = value.split(separator: "/")
-  }
-}
+
+  } //end constructor()
+
+} //end struct Path

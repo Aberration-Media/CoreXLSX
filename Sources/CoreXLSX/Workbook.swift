@@ -42,7 +42,7 @@ public struct Workbook: Codable, Equatable {
   public let views: Views?
 
   public struct Sheets: Codable, Equatable {
-    public let items: [Sheet]
+    public var items: [Sheet]
 
     enum CodingKeys: String, CodingKey {
       case items = "sheet"
@@ -61,7 +61,7 @@ public struct Workbook: Codable, Equatable {
     }
   }
 
-  public let sheets: Sheets
+  public var sheets: Sheets
 
   enum CodingKeys: String, CodingKey {
     case properties = "workbookPr"

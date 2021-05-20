@@ -185,7 +185,6 @@ public class XLSXFile {
 
     //check if entry exists in file archive
     guard let entry: Entry = archive[entryPath] else {
-      print("failed to find entry: \(entryPath)")
       throw CoreXLSXError.archiveEntryNotFound
     }
 

@@ -15,7 +15,11 @@
 //  Created by Max Desiatov on 16/03/2019.
 //
 
+// MARK: -
+// MARK: - Styles -
+
 public struct Styles: Codable, Equatable {
+
   public let numberFormats: NumberFormats?
   public let fonts: Fonts?
   public let fills: Fills?
@@ -39,7 +43,38 @@ public struct Styles: Codable, Equatable {
     case tableStyles
     case colors
   }
-}
+
+  internal init(
+    numberFormats: NumberFormats? = nil,
+    fonts: Fonts? = nil,
+    fills: Fills? = nil,
+    borders: Borders? = nil,
+    cellStyleFormats: CellStyleFormats? = nil,
+    cellFormats: CellFormats? = nil,
+    differentialFormats: DifferentialFormats? = nil,
+    tableStyles: TableStyles? = nil,
+    cellStyles: CellStyles? = nil,
+    colors: Colors? = nil
+  ) {
+    self.numberFormats = numberFormats
+    self.fonts = fonts
+    self.fills = fills
+    self.borders = borders
+    self.cellStyleFormats = cellStyleFormats
+    self.cellFormats = cellFormats
+    self.differentialFormats = differentialFormats
+    self.tableStyles = tableStyles
+    self.cellStyles = cellStyles
+    self.colors = colors
+
+  } //end constructor()
+
+} //end struct Styles
+
+
+
+// MARK: -
+// MARK: - Color -
 
 public struct Color: Codable, Equatable {
   public let indexed: Int?
@@ -55,7 +90,12 @@ public struct Color: Codable, Equatable {
     self.rgb = rgb
     self.tint = tint
   }
-}
+
+} //end struct Color
+
+
+// MARK: -
+// MARK: - NumberFormats -
 
 public struct NumberFormats: Codable, Equatable {
   public let items: [NumberFormat]
@@ -65,7 +105,12 @@ public struct NumberFormats: Codable, Equatable {
     case items = "numFmt"
     case count
   }
-}
+
+} //end struct NumberFormats
+
+
+// MARK: -
+// MARK: - NumberFormat -
 
 public struct NumberFormat: Codable, Equatable {
   public let id: Int
@@ -75,7 +120,12 @@ public struct NumberFormat: Codable, Equatable {
     case id = "numFmtId"
     case formatCode
   }
-}
+
+} //end struct NumberFormat
+
+
+// MARK: -
+// MARK: - Fonts -
 
 public struct Fonts: Codable, Equatable {
   public let items: [Font]
@@ -101,7 +151,12 @@ public struct Fonts: Codable, Equatable {
     self.count = count
     self.knownFonts = nil
   }
-}
+
+} //end struct Fonts
+
+
+// MARK: -
+// MARK: - Font -
 
 public struct Font: Codable, Equatable {
 
@@ -164,7 +219,12 @@ public struct Font: Codable, Equatable {
     self.italic = italic
     self.strike = strike
   }
-}
+
+} //end struct Font
+
+
+// MARK: -
+// MARK: - Fills -
 
 public struct Fills: Codable, Equatable {
   public let items: [Fill]
@@ -174,11 +234,20 @@ public struct Fills: Codable, Equatable {
     case items = "fill"
     case count
   }
-}
+} //end struct Fills
+
+
+// MARK: -
+// MARK: - Fill -
 
 public struct Fill: Codable, Equatable {
   public let patternFill: PatternFill
-}
+
+} //end struct Fill
+
+
+// MARK: -
+// MARK: - PatternFill -
 
 public struct PatternFill: Codable, Equatable {
   public let patternType: String
@@ -190,7 +259,12 @@ public struct PatternFill: Codable, Equatable {
     case backgroundColor = "bgColor"
     case patternType
   }
-}
+
+} //end struct PatternFill
+
+
+// MARK: -
+// MARK: - Borders -
 
 public struct Borders: Codable, Equatable {
   public let items: [Border]

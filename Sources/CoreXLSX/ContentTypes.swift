@@ -105,8 +105,8 @@ public extension ContentTypes {
       Default(extension: "xlsx", type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
     ]
     let overrides: [Override] = [
-      Override(partName: "/docProps/core.xml", type: ApplicationType.core.rawValue),
-      Override(partName: "/docProps/app.xml", type: ApplicationType.extended.rawValue),
+      //Override(partName: "/docProps/core.xml", type: ApplicationType.core.rawValue),
+      //Override(partName: "/docProps/app.xml", type: ApplicationType.extended.rawValue),
     ]
 
     var config = ContentTypes(defaults: defaults, overrides: overrides)

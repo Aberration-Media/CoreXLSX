@@ -11,12 +11,15 @@ import XCTest
 
 public class XLSXDocumentTest: XCTestCase, XLSXDocumentDelegate {
 
+
   // MARK: Test Properties
 
   /// ouput folder URL for saved documents
   private let outputFolderURL: URL = {
     URL(fileURLWithPath: currentWorkingPath).deletingLastPathComponent().appendingPathComponent("XLSXTestsOutput")
   }()
+
+
 
   // MARK: - Configuration Functions
 
@@ -33,28 +36,66 @@ public class XLSXDocumentTest: XCTestCase, XLSXDocumentDelegate {
     } // end if (folder does not exist)
   } // end setUp()
 
+
+
   // MARK: - XLSX Write Test Functions
 
   func testSaveEmptyDocument() {
+
     // create blank document
     let document = XLSXDocument()
     document.documentDelegate = self
 
     do {
       let filePath: URL = outputFolderURL.appendingPathComponent("Empty.xlsx")
-      print("output path: \(filePath)")
       try document.save(to: filePath.path, overwrite: true)
 
     } catch {
       XCTAssert(false, "Error saving file: \(error)")
     }
+
   } // end testSaveEmptyDocument()
+
+
+  func testSaveNewDocument() {
+
+    // create document
+    let document = XLSXDocument()
+    document.documentDelegate = self
+
+    //edit document
+    document.modifyWorksheet(at: 0) {
+      (worksheet: inout Worksheet, sharedStrings: inout SharedStrings) in
+
+      //add new row
+      let styles: [String] = []
+      worksheet.addRow(with: ["abc", "def", "hij", "klm"], sharedStrings: &sharedStrings, styles: styles)
+      worksheet.addRow(with: ["1", "2", "3", "4"], sharedStrings: &sharedStrings, styles: styles)
+      worksheet.insertRow(at: 6, with: ["in1", "in2"], sharedStrings: &sharedStrings, styles: styles)
+      worksheet.updateRowValues(at: 4, with: ["replace RICH"], sharedStrings: &sharedStrings)
+      worksheet.updateColumnValues(at: 5, row: 2, with: ["test1", "test2", "test3", "test4", "test5", "test6"], sharedStrings: &sharedStrings)
+      worksheet.addRow(with: ["A", "B", "C", "D"], sharedStrings: &sharedStrings, styles: styles)
+
+
+    } //end modify closure
+
+    do {
+      let filePath: URL = outputFolderURL.appendingPathComponent("NewDocument.xlsx")
+      try document.save(to: filePath.path, overwrite: true)
+
+    } catch {
+      XCTAssert(false, "Error saving file: \(error)")
+    }
+
+  } // end testSaveNewDocument()
+
 
 
   func testSaveExistingDocument() {
 
     // open test document
-    let fileName: String = "jewelershealthcare.com-census.1.xlsx"
+    let fileName: String = "Dates.xlsx"
+    //let fileName: String = "jewelershealthcare.com-census.1.xlsx"
     //let fileName: String = "categories.xlsx"
     guard let file =
       XLSXFile(filepath: "\(currentWorkingPath)/\(fileName)") else {
@@ -68,29 +109,15 @@ public class XLSXDocumentTest: XCTestCase, XLSXDocumentDelegate {
 
     do {
 
-//      for (index, book) in document.workbooks.enumerated() {
-//          print("\n\nfound workbook\(index) - \(book)")
-//
-//        for (sheetID, sheet) in document.worksheetsMap {
-//            print("This worksheet:\n\t - sheetID: (\(sheetID))\n\t - sheet: \(sheet)")
-//
-////          let worksheet = try document.parseWorksheet(at: path)
-////          for row in worksheet.data?.rows ?? [] {
-////            for c in row.cells {
-////              print(c)
-////            }
-////          }
-//        }
-//      } //end for()
-
-      let filePath: URL = outputFolderURL.appendingPathComponent(fileName)
-      print("output path: \(filePath)")
+      let filePath: URL = outputFolderURL.appendingPathComponent("ExistingSaved.xlsx")
       try document.save(to: filePath.path, overwrite: true)
 
     } catch {
       XCTAssert(false, "Error saving file: \(error)")
     }
   } // end testSaveExistingDocument()
+
+
 
   func testSaveEditedDocument() {
 
@@ -112,29 +139,21 @@ public class XLSXDocumentTest: XCTestCase, XLSXDocumentDelegate {
       worksheet.insertRow(at: 3, with: ["in1", "in2"], sharedStrings: &sharedStrings, styles: styles)
       worksheet.deleteRows(in: 0..<3)
       worksheet.updateRowValues(at: 4, with: ["replace RICH"], sharedStrings: &sharedStrings)
-      worksheet.updateColumnValues(at: 5, row: 2, with: ["test1", "test2", "test3", "test4", "test5", "test5"], sharedStrings: &sharedStrings)
+      worksheet.updateColumnValues(at: 5, row: 2, with: ["test1", "test2", "test3", "test4", "test5", "test6"], sharedStrings: &sharedStrings)
       worksheet.deleteColumns(in: 0..<1)
 
     } //end modify closure
 
-//    //debug cells
-//    for worksheet in document.worksheets {
-//      for row in worksheet.data?.rows ?? [] {
-//        for c in row.cells {
-//          print("CELL: \(c)")
-//        }
-//      }
-//    } //end for (worksheets)
-
     do {
-      let filePath: URL = outputFolderURL.appendingPathComponent("Test.xlsx")
-      print("output path: \(filePath)")
+      let filePath: URL = outputFolderURL.appendingPathComponent("EditedExisting.xlsx")
       try document.save(to: filePath.path, overwrite: true)
 
     } catch {
       XCTAssert(false, "Error saving file: \(error)")
     }
   } // end testSaveEmptyDocument()
+
+
 
   // MARK: - XLSXDocumentDelegate Functions
 

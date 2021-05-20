@@ -20,7 +20,7 @@ public extension Worksheet {
   /// number of rows in worksheet
   var numberOfRows: Int {
     if let last = self.lastRow {
-      return Int(last.reference + 1)
+      return Int(last.reference)
     }
     return 0
   }
@@ -40,7 +40,7 @@ public extension Worksheet {
     dimension = nil
     sheetViews = nil
     columns = nil
-    data = nil
+    data = Worksheet.Data(rows: []) //Data is required for a valid XLSX
     mergeCells = nil
   } //end constructor()
 
@@ -167,7 +167,7 @@ public extension Worksheet {
   ) {
 
     //insert row at end of worksheet
-    let rowIndex: UInt = UInt(self.numberOfRows)
+    let rowIndex: UInt = UInt(self.numberOfRows + 1) //XLSX rows start at 1 - using a cell reference with row 0 will crash Excel
     self.insertRow(at: rowIndex, with: values, sharedStrings: &sharedStrings, height: height, styles: styles)
 
   } //end addRow()
@@ -205,8 +205,13 @@ public extension Worksheet {
       }
     } //end for (values)
 
-    //move subsequent rows (as rows are moved down an error will never be thrown)
-    try? self.shiftRows(in: Int(rowIndex)..<numberOfRows, by: 1)
+    //update subsequent rows
+    let startIndex = Int(rowIndex)
+    if numberOfRows > startIndex {
+
+      //move subsequent rows (as rows are moved down an error will never be thrown)
+      try? self.shiftRows(in: startIndex..<numberOfRows, by: 1)
+    }
 
     //create new row
     let row = Row(reference: rowIndex, height: height, customHeight: nil, cells: cells)
